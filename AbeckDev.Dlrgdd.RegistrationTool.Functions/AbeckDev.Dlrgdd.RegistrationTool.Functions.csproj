@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AzureFunctionsVersion>v3</AzureFunctionsVersion>
+    <Version>0.1.0</Version>
+    <Authors>AbeckDev</Authors>
+    <Company>DLRG Bezirk Dresden e. V.</Company>
+    <Description>A set of functions used to validate and handle user registration of events with an Azure Service Bus and Storage Account backend.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <Copyright>https://github.com/abeckDev/DlrgDresden-EventRegistrationTool/blob/main/LICENSE</Copyright>
+    <PackageProjectUrl>https://github.com/abeckDev/DlrgDresden-EventRegistrationTool/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/abeckDev/DlrgDresden-EventRegistrationTool/</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="host.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="local.settings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+</Project>
