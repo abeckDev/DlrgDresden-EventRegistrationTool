@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>AbeckDev</Authors>
     <Company>DLRG Bezirk Dresden e. V.</Company>
     <Description>A set of functions used to validate and handle user registration of events with an Azure Service Bus and Storage Account backend.</Description>
@@ -13,7 +13,11 @@
     <RepositoryType>GitHub</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Azure.Cosmos.Table" Version="1.0.8" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.1.3" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="4.1.0" />
     <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="3.0.11" />
+    <PackageReference Include="sib_api_v3_sdk" Version="3.2.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

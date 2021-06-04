@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AbeckDev.Dlrgdd.RegistrationTool.Functions.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Security.Cryptography;
@@ -18,39 +19,81 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
         }
 
 
-        //public AccountCreationRequest EncryptAccountCreationRequest(AccountCreationRequest creationRequest)
-        //{
-        //    if (!creationRequest.isEncrypted)
-        //    {
-        //        creationRequest.name = EncryptString(creationRequest.name);
-        //        creationRequest.eMail = EncryptString(creationRequest.eMail);
-        //        creationRequest.password = EncryptString(creationRequest.password);
-        //        creationRequest.surname = EncryptString(creationRequest.surname);
-        //        if (creationRequest.UserId != null)
-        //        {
-        //            creationRequest.UserId = EncryptString(creationRequest.UserId);
-        //        }
-        //        creationRequest.isEncrypted = true;
-        //    }
-        //    return creationRequest;
-        //}
 
-        //public AccountCreationRequest DecryptAccountCreationRequest(AccountCreationRequest creationRequest)
-        //{
-        //    if (creationRequest.isEncrypted)
-        //    {
-        //        creationRequest.name = DecryptString(creationRequest.name);
-        //        creationRequest.eMail = DecryptString(creationRequest.eMail);
-        //        creationRequest.password = DecryptString(creationRequest.password);
-        //        creationRequest.surname = DecryptString(creationRequest.surname);
-        //        if (creationRequest.UserId != null)
-        //        {
-        //            creationRequest.UserId = DecryptString(creationRequest.UserId);
-        //        }
-        //        creationRequest.isEncrypted = false;
-        //    }
-        //    return creationRequest;
-        //}
+        public AttendeeRecord EncryptÁttendeeRecord(AttendeeRecord attendeeRecord)
+        {
+            if (!attendeeRecord.IsEncrypted)
+            {
+                //Is not encrypted yet - we need to work
+                attendeeRecord.Name = EncryptString(attendeeRecord.Name);
+                attendeeRecord.Surname = EncryptString(attendeeRecord.Surname);
+                attendeeRecord.Email = EncryptString(attendeeRecord.Email);
+                attendeeRecord.Birthday = EncryptString(attendeeRecord.Birthday);
+                attendeeRecord.Address = EncryptString(attendeeRecord.Address);
+                attendeeRecord.Password = EncryptString(attendeeRecord.Password);
+                attendeeRecord.Username = EncryptString(attendeeRecord.Username);
+                attendeeRecord.IsEncrypted = true;
+            }
+            return attendeeRecord;
+        }
+
+        public AttendeeRecord DecryptÁttendeeRecord(AttendeeRecord attendeeRecord)
+        {
+            if (attendeeRecord.IsEncrypted)
+            {
+                //Is not encrypted yet - we need to work
+                attendeeRecord.Name = DecryptString(attendeeRecord.Name);
+                attendeeRecord.Surname = DecryptString(attendeeRecord.Surname);
+                attendeeRecord.Email = DecryptString(attendeeRecord.Email);
+                attendeeRecord.Birthday = DecryptString(attendeeRecord.Birthday);
+                attendeeRecord.Address = DecryptString(attendeeRecord.Address);
+                attendeeRecord.Password = DecryptString(attendeeRecord.Password);
+                attendeeRecord.Username = DecryptString(attendeeRecord.Username);
+                attendeeRecord.IsEncrypted = false;
+            }
+            return attendeeRecord;
+        }
+
+
+
+        public UserRegistrationRequest EncryptRegistrationRequest(UserRegistrationRequest creationRequest)
+        {
+            if (!creationRequest.IsEncrypted)
+            {
+                //Is not encrypted yet - we need to work
+                creationRequest.Name = EncryptString(creationRequest.Name);
+                creationRequest.Surname = EncryptString(creationRequest.Surname);
+                creationRequest.EmailAddress = EncryptString(creationRequest.EmailAddress);
+                creationRequest.Birthday = EncryptString(creationRequest.Birthday);
+                creationRequest.Address = EncryptString(creationRequest.Address);
+                if (creationRequest.UserId != null)
+                {
+                    creationRequest.UserId = EncryptString(creationRequest.UserId);
+                }
+                creationRequest.IsEncrypted = true;
+            }
+            return creationRequest;
+        }
+
+        public UserRegistrationRequest DecryptRegistrationRequest(UserRegistrationRequest creationRequest)
+        {
+            if (creationRequest.IsEncrypted)
+            {
+                //Is  encrypted yet - we need to work
+                creationRequest.Name = DecryptString(creationRequest.Name);
+                creationRequest.Surname = DecryptString(creationRequest.Surname);
+                creationRequest.EmailAddress = DecryptString(creationRequest.EmailAddress);
+                creationRequest.Birthday = DecryptString(creationRequest.Birthday);
+                creationRequest.Address = DecryptString(creationRequest.Address);
+
+                if (creationRequest.UserId != null)
+                {
+                    creationRequest.UserId = DecryptString(creationRequest.UserId);
+                }
+                creationRequest.IsEncrypted = false;
+            }
+            return creationRequest;
+        }
 
         public string EncryptString(string StringToEncrypt)
         {
