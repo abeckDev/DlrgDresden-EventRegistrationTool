@@ -26,15 +26,10 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             var emailService = new EmailService();
 
             //Save Attendee information to the table storage --> may be crypted
-            var attendee = encryptionService.Decrypt¡ttendeeRecord(attendeeService.CreateAttendeeRecord(registrationRequest));
-
+            var attendee = encryptionService.Decrypt√ÅttendeeRecord(attendeeService.CreateAttendeeRecord(registrationRequest));
 
             //Inform Attendee via Mail 
             await emailService.SendRegistrationSucceededMail(attendee.Email, attendee.Name + " " + attendee.Surname, attendee.Username, attendee.Password);
-
-
-
-
         }
     }
 }
