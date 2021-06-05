@@ -26,9 +26,18 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
 
             //Get encryption service
             var encryptionService = new EncryptionService();
+            //Get MetadataInformation
+            var metaInformationService = new MetaInformationService();
+
+
+            //Check if Deadline is already reached
+            if (metaInformationService.IsRegistrationDeadlineReached())
+            {
+                return new BadRequestObjectResult("Registration not possible. Event Deadline Reached!");
+            }
+
 
             //Validate User Input
-
             //Get Dictionary out of input
             Dictionary<string, string> InputMessage = JsonConvert.DeserializeObject<Dictionary<string, string>>(new StreamReader(req.Body).ReadToEnd());
 
