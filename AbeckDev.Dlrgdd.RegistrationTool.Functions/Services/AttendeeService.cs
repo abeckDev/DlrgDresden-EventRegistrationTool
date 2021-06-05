@@ -202,7 +202,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
             var userNames = new List<string>();
             foreach (var attendee in cloudTable.ExecuteQuery(new TableQuery<AttendeeRecord>()))
             {
-                userNames.Add(encryptionService.DecryptÁttendeeRecord(attendee).UserId);
+                userNames.Add(encryptionService.DecryptÁttendeeRecord(attendee).Username);
             }
             return userNames;
         }
