@@ -10,6 +10,11 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
 
         public DateTime GetEventRegistrationDeadline()
         {
+
+            var debug = System.Environment.GetEnvironmentVariable("EventRegistrationDeadline");
+
+            var dummy = debug;
+
             if (DateTime.TryParse(System.Environment.GetEnvironmentVariable("EventRegistrationDeadline"),out DateTime Deadline))
             {
                 return Deadline;
