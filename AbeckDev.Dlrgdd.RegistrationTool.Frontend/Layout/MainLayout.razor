@@ -6,43 +6,43 @@
 <Layout>
   <LayoutHeader>
       <Bar Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light">
-                <BarBrand>
-                    <BarItem>
-                        <BarLink To="">
-                            <Text Color="TextColor.Secondary">JHV  DLRG Dresden - Anmeldungsportal</Text>
-                        </BarLink>
-                    </BarItem>
-                </BarBrand>
-                <BarToggler />
-                <BarMenu>
-                    <BarStart>
-                        <BarItem>
-                            <BarLink To="https://blazorise.com/"><Text Color="TextColor.White">Anmeldung</Text></BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarLink To="https://blazorise.com/docs/"><Text Color="TextColor.White">Informationen zur Veranstaltung</Text></BarLink>
-                        </BarItem>
-                        <BarItem>
-                            <BarDropdown>
-                                <BarDropdownToggle>Hilfe</BarDropdownToggle>
-                                <BarDropdownMenu>
-                                    <BarDropdownItem To="https://blazorise.com/docs/quick-start/">
-                                        FAQ
-                                    </BarDropdownItem>
-                                    <BarDropdownItem To="https://blazorise.com/docs/usage/">
-                                        Support kontaktieren
-                                    </BarDropdownItem>
-                                </BarDropdownMenu>
-                            </BarDropdown>
-                        </BarItem>
-                    </BarStart>
-                    <BarEnd>
-                        <BarItem>
-                            <BarLink To="https://github.com/stsrki/blazorise"><Text Color="TextColor.White"><BarIcon IconName="IconName.User" /> Meine Anmeldung aufrufen</Text></BarLink>
-                        </BarItem>
-                    </BarEnd>
-                </BarMenu>
-            </Bar>
+        <BarBrand>
+            <BarItem>
+                <BarLink To="">
+                    <Text Color="TextColor.Secondary" style="font-weight:bold">JHV  DLRG Dresden - Anmeldungsportal</Text>
+                </BarLink>
+            </BarItem>
+        </BarBrand>
+        <BarToggler />
+        <BarMenu>
+            <BarStart>
+                <BarItem>
+                    <BarLink  style="color:white" To="https://blazorise.com/">Anmeldung</BarLink>
+                </BarItem>
+                <BarItem>
+                    <BarLink  style="color:white" To="https://blazorise.com/docs/">Informationen zur Veranstaltung</BarLink>
+                </BarItem>
+                <BarItem>
+                    <BarDropdown>
+                        <BarDropdownToggle style="color:white"> Hilfe</BarDropdownToggle>
+                        <BarDropdownMenu>
+                            <BarDropdownItem To="https://blazorise.com/docs/quick-start/">
+                                FAQ
+                            </BarDropdownItem>
+                            <BarDropdownItem To="https://blazorise.com/docs/usage/">
+                                Support kontaktieren
+                            </BarDropdownItem>
+                        </BarDropdownMenu>
+                    </BarDropdown>
+                </BarItem>
+            </BarStart>
+            <BarEnd>
+                <BarItem>
+                    <BarLink To="https://github.com/stsrki/blazorise"><Text Color="TextColor.White"><BarIcon IconName="IconName.User" /> Meine Anmeldung aufrufen</Text></BarLink>
+                </BarItem>
+            </BarEnd>
+        </BarMenu>
+      </Bar>
   </LayoutHeader>
   <LayoutContent>
       @Body
