@@ -2,6 +2,8 @@
 @inherits LayoutComponentBase
 @using System.Globalization
 @using Blazorise.Localization
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
 
 <Layout>
   <LayoutHeader>
@@ -51,6 +53,6 @@
       @Body
   </LayoutContent>
   <LayoutFooter>
-    DLRG Bezirk Dresden e. V. - 2021
+    DLRG Bezirk Dresden e. V. - 2021 
   </LayoutFooter>
 </Layout>

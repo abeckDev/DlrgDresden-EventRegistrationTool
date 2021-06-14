@@ -1,9 +1,34 @@
-﻿@page "/"
+﻿@using System.Net.Http
+@inject HttpClient Http
+@using System.Net.Http.Json
+
+@page "/"
 
 <h1>Allgemeine Informationen</h1>
+
+Anmeldeschluss: @Deadline
+
+
 
 Deadline bis zur Anmeldefrist
 
 Kurze Erläuterung 
 
 Mit Link zur Anmeldung. 
+
+@code {
+
+	DateTime Deadline;
+
+	protected override async Task OnInitializedAsync() => 
+        Deadline = await GetRegistrationDeadline();
+
+	private async Task<DateTime> GetRegistrationDeadline()
+	{
+		var response = await Http.GetFromJsonAsync<MetadataInformation>("api/EventMetadataFunction");
+		return response.RegistrationDeadline;
+	}
+
+
+	  
+}
