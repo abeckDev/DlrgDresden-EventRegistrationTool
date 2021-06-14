@@ -8,7 +8,7 @@ The Function Backend needs the follwing settings to be parsed as Environment Var
 
 | Config Flag                         | SampleValue                            | Description                                                                                                                                        |
 |-------------------------------------|----------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
-| EventRegistrationDeadline           | 07.06.2021                             | The Registration Deadline. If that date is passed, no further registration is possible.                                                            |
+| EventRegistrationDeadline           | 07.06.2021                             | The Registration Deadline. If that date is passed, no further registration is possible. Needs to be in format: ```dd.MM.yyyy```                                                            |
 | SendInBlueApiKey                    | RandomString                         | The API Key from the SendInBlue Account which will be used as E-Mail provider.                                                                     |
 | RegistrationSucceededMailTemplateId | 1                                      | The Number of the SendInBlue E-Mail Template which will be used for E-Mail Notification after a successful registration                            |
 | eMailNameFrom                       | MyOrganization - MyEvent               | The Name from which the E-Mail should be from.                                                                                                     |

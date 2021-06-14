@@ -20,7 +20,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
-
+            
             //Get MetaInformationService
             var metaInformationService = new MetaInformationService();
 
