@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Text;
 
@@ -15,7 +16,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
 
             var dummy = debug;
 
-            if (DateTime.TryParse(System.Environment.GetEnvironmentVariable("EventRegistrationDeadline"),out DateTime Deadline))
+            if (DateTime.TryParseExact(System.Environment.GetEnvironmentVariable("EventRegistrationDeadline"),"dd.MM.yyyy",CultureInfo.InvariantCulture,DateTimeStyles.None, out DateTime Deadline))
             {
                 return Deadline;
             }
