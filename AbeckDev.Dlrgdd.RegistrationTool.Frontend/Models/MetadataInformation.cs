@@ -12,5 +12,8 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Frontend.Models
         [JsonProperty("registrationDeadline")]
         public DateTime RegistrationDeadline { get; set; }
 
+        [JsonProperty("isDeadlineReached")]
+        public bool IsRegistrationDeadlineReached { get; set; }
+
     }
 }
