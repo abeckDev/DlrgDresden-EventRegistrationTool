@@ -15,5 +15,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Frontend.Models
         [JsonProperty("isDeadlineReached")]
         public bool IsRegistrationDeadlineReached { get; set; }
 
+        public bool IsLoaded { get; set; } = false;
+
     }
 }

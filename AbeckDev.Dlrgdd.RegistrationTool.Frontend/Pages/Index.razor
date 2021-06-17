@@ -35,26 +35,21 @@
 <Row>
     <Column>
         <Card Margin="Margin.Is4.FromBottom.Is2.FromTop">
-            <CardHeader>
-                <CardTitle>Die Rettungsschwimmer Weisheit des Tages</CardTitle>
-            </CardHeader>
             <CardBody>
-                @if (Deadline == null)
+                @if (metaInformation.IsLoaded == false)
                 {
                     <Loader />
                 }
                 else
                 {
                     <CardText>
-                        <Jumbotron Background="Background.Primary" Margin="Margin.Is4.FromBottom">
-                            <JumbotronSubtitle>
-                                <strong>Anmeldeschluss</strong>
-                            </JumbotronSubtitle>
-                            <Divider></Divider>
-                            <Paragraph>
-                                @Deadline
-                            </Paragraph>
-                        </Jumbotron>
+                        <Alert Color="Color.Success" Visible="true">
+                            <AlertDescription Class="text-center">Anmeldungen zur Jahreshauptversammlung sind noch möglich!</AlertDescription>
+                        </Alert>
+                        <Text Class="text-center" style="font-weight:700" >
+                            Der Anmeldeschluss ist der: @Deadline
+                            <Button Color="Color.Primary">Zur Anmeldung!</Button>
+                        </Text>
                     </CardText>
                 }
             </CardBody>
@@ -132,7 +127,7 @@
 
 <h1>Allgemeine Informationen</h1>
 
-Anmeldeschluss: @Deadline
+Anmeldeschluss: @metaInformation.RegistrationDeadline
 
 
 
@@ -146,15 +141,24 @@ Mit Link zur Anmeldung.
 
 @code {
 
-	DateTime Deadline;
+    MetadataInformation metaInformation = new MetadataInformation();
 
-	protected override async Task OnInitializedAsync() => 
-        Deadline = await GetRegistrationDeadline();
+    string Deadline;
 
-	private async Task<DateTime> GetRegistrationDeadline()
+	protected override async Task OnInitializedAsync() 
+    {
+        metaInformation = await GetMetaInformation();
+        Deadline = metaInformation.RegistrationDeadline.Day + "." + metaInformation.RegistrationDeadline.Month + "." + metaInformation.RegistrationDeadline.Year;
+    }
+        
+    
+
+
+	private async Task<MetadataInformation> GetMetaInformation()
 	{
 		var response = await Http.GetFromJsonAsync<MetadataInformation>("api/EventMetadataFunction");
-		return response.RegistrationDeadline;
+        response.IsLoaded = true;
+		return response;
 	}
 
 
