@@ -1,36 +1,31 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using AbeckDev.Dlrgdd.RegistrationTool.Functions.Models;
-using AbeckDev.Dlrgdd.RegistrationTool.Functions.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using AbeckDev.Dlrgdd.RegistrationTool.Functions.Services;
+using System.Collections.Generic;
+using AbeckDev.Dlrgdd.RegistrationTool.Functions.Models;
 
 namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
 {
-    public static class UserRegistrationFunction
+    public static class ValidateUserFunction
     {
-        [FunctionName("UserRegistrationFunction")]
+        [FunctionName("ValidateUserFunction")]
         public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
-            //Get encryption service
-            var encryptionService = new EncryptionService();
             //Get MetadataInformation
             var metaInformationService = new MetaInformationService();
-            //Get attendee service
+            //Get AttendeeService
             var attendeeService = new AttendeeService();
-
 
             //Check if Deadline is already reached
             if (metaInformationService.IsRegistrationDeadlineReached())
@@ -69,7 +64,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
                 Address = InputMessage["address"]
             };
 
-            //Validate if user is Eligable for attendance based on Validation Module
+            //ToDo: Validate if user is Eligable for attendance based on Validation Module
             Dictionary<string, string> validationParameters = new Dictionary<string, string>()
             {
                 {"vorname", registrationRequest.Name },
@@ -81,31 +76,13 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             {
                 return new BadRequestObjectResult("User not found in member database!");
             }
-            //If yes, extract userId from CSV and write it to the request
-            string memberId = attendeeService.GetMemberIdFromMemberTable(validationParameters, "AND");
-            registrationRequest.UserId = memberId;
+            
 
 
             //ToDo: Check if account exists already (based on mail and attendeeId)
-
-            //Encrypt user information for further processing
-            registrationRequest = encryptionService.EncryptRegistrationRequest(registrationRequest);
-
-            //Create Queue Item for further processing
-            var queueClient = new QueueClient(System.Environment.GetEnvironmentVariable("ServiceBusConnectionString"), "userregistration");
-
-            //Send Message
-            string message = JsonConvert.SerializeObject(registrationRequest);
-            var encodedMessage = new Message()
-            {
-                Body = Encoding.UTF8.GetBytes(message),
-                ContentType = "application/json",
-            };
-            await queueClient.SendAsync(encodedMessage);
 
             //Feedback
             return new OkObjectResult("OK!");
         }
     }
 }
-
