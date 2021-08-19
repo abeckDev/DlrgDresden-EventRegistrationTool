@@ -86,7 +86,17 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             registrationRequest.UserId = memberId;
 
 
-            //ToDo: Check if account exists already (based on mail and attendeeId)
+            //Check if account exists already via userId
+            if (attendeeService.DoesUserExist(memberId))
+            {
+                return new BadRequestObjectResult("You are already registered with that membership!");
+            }
+
+            //Check if account exists already via E-Mail
+            if (attendeeService.IsEmailAlreadyUsed(registrationRequest.EmailAddress))
+            {
+                return new BadRequestObjectResult("That E-Mail is already used!");
+            }
 
             //Encrypt user information for further processing
             registrationRequest = encryptionService.EncryptRegistrationRequest(registrationRequest);

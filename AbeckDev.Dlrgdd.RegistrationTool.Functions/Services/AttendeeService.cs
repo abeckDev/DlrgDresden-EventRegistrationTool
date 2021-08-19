@@ -34,7 +34,6 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
             return table;
         }
 
-
         //Check if provided values match member database 
         public bool IsValidMember(Dictionary<string, string> validationPairs, string logicalOperator = "AND")
         {
@@ -167,6 +166,25 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
             {
                 return true;
             }
+            return false;
+        }
+
+        //Is E-Mail already used
+        public bool IsEmailAlreadyUsed(string eMail)
+        {
+            var eMails = new List<string>();
+            foreach (var attendee in attendeeTable.ExecuteQuery(new TableQuery<AttendeeRecord>()))
+            {
+                eMails.Add(attendee.Email);
+            }
+            //Encrypt mail to compare with existing hashes
+            eMail = encryptionService.EncryptString(eMail);
+            if (eMails.Contains(eMail))
+            {
+                //E-Mail hash already exists 
+                return true;
+            }
+            //E-mail not used yet
             return false;
         }
 
