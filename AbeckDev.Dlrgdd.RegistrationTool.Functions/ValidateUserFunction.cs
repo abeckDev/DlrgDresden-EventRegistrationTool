@@ -76,10 +76,22 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             {
                 return new BadRequestObjectResult("User not found in member database!");
             }
-            
+            //If yes, extract userId from CSV and write it to the request
+            string memberId = attendeeService.GetMemberIdFromMemberTable(validationParameters, "AND");
+
+            //Check if account exists already via userId
+            if (attendeeService.DoesUserExist(memberId))
+            {
+                return new BadRequestObjectResult("You are already registered with that membership!");
+            }
+
+            //Check if account exists already via E-Mail
+            if (attendeeService.IsEmailAlreadyUsed(registrationRequest.EmailAddress))
+            {
+                return new BadRequestObjectResult("That E-Mail is already used!");
+            }
 
 
-            //ToDo: Check if account exists already (based on mail and attendeeId)
 
             //Feedback
             return new OkObjectResult("OK!");
