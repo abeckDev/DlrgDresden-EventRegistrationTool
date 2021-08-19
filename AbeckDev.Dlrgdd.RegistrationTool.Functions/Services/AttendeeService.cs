@@ -11,15 +11,19 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
     {
         CloudTableClient cloudTableClient;
 
-        CloudTable cloudTable;
+        CloudTable attendeeTable;
+        CloudTable memberTable;
         const string AttendeeTableName = "jhvAttendees";
+        const string MemberTableName = "memberDatabase";
+        const string MemberTablePartitionKey = "dlrgdd";
         EncryptionService encryptionService;
 
 
         public AttendeeService()
         {
             cloudTableClient = CloudStorageAccount.Parse(System.Environment.GetEnvironmentVariable("StorageAccountConnectionString")).CreateCloudTableClient();
-            cloudTable = CreateTableIfNotExist(AttendeeTableName);
+            attendeeTable = CreateTableIfNotExist(AttendeeTableName);
+            memberTable = CreateTableIfNotExist(MemberTableName);
             encryptionService = new EncryptionService();
         }
 
@@ -28,6 +32,57 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
             CloudTable table = cloudTableClient.GetTableReference(TableName);
             table.CreateIfNotExistsAsync();
             return table;
+        }
+
+
+        //Check if provided values match member database 
+        public bool IsValidMember(Dictionary<string, string> validationPairs, string logicalOperator = "AND")
+        {
+            switch (logicalOperator)
+            {
+                case "AND":
+                    string query = $"PartitionKey eq '{MemberTablePartitionKey}' and ";
+                    int index = 0;
+                    foreach (var validationPair in validationPairs)
+                    {
+                        if (index !=0)
+                        {
+                            query += " and ";
+                        }
+                        query += $"{validationPair.Key} eq \'{validationPair.Value}\'";
+                        index++;
+                    }
+                    TableQuery tableQuery = new TableQuery()
+                        .Where(query);
+                    var result = memberTable.ExecuteQuery(tableQuery);
+                    if(result.Count() == 1)
+                    {
+                        return true;
+                    }
+                    return false;
+                case "OR":
+                    string query2 = $"PartitionKey eq '{MemberTablePartitionKey}' and ";
+                    int index2 = 0;
+                    foreach (var validationPair in validationPairs)
+                    {
+                        if (index2 != 0)
+                        {
+                            query2 += " or ";
+                        }
+                        query2 += $"{validationPair.Key} eq \'{validationPair.Value}\'";
+                        index2++;
+                    }
+                    TableQuery tableQuery2 = new TableQuery()
+                        .Where(query2);
+                    var result2 = memberTable.ExecuteQuery(tableQuery2);
+                    if (result2.Count() == 1)
+                    {
+                        return true;
+                    }
+                    return false;
+                default:
+                    throw new Exception("That operator is not allowed");
+            }
         }
 
         //Write User to Table Storage
@@ -53,7 +108,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
             attendee = encryptionService.EncryptÁttendeeRecord(attendee);
 
             //Write to Table Storage
-            TableResult result = cloudTable.Execute(TableOperation.InsertOrReplace(attendee));
+            TableResult result = attendeeTable.Execute(TableOperation.InsertOrReplace(attendee));
             return result.Result as AttendeeRecord;
         }
 
@@ -94,7 +149,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
         public void DeleteAttendee(string UserId)
         {
             var attendee = GetAttendeeRecord(UserId);
-            cloudTable.Execute(TableOperation.Delete(attendee));
+            attendeeTable.Execute(TableOperation.Delete(attendee));
         }
 
 
@@ -107,7 +162,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
             //assign new values
             attendee = attendeeRecord;
 
-            var result = cloudTable.Execute(TableOperation.InsertOrReplace(attendee));
+            var result = attendeeTable.Execute(TableOperation.InsertOrReplace(attendee));
 
             return result.Result as AttendeeRecord;
 
@@ -125,7 +180,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
                 }
                 TableQuery<AttendeeRecord> query = new TableQuery<AttendeeRecord>()
                     .Where(TableQuery.GenerateFilterCondition("RowKey", QueryComparisons.Equal, userId));
-                return cloudTable.ExecuteQuery(query).FirstOrDefault(a => a.UserId == userId);
+                return attendeeTable.ExecuteQuery(query).FirstOrDefault(a => a.UserId == userId);
             }
             catch (Exception)
             {
@@ -178,7 +233,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
         public List<AttendeeRecord> GetAllAttendeeRecords()
         {
             var attendees = new List<AttendeeRecord>();
-            foreach (var attendee in cloudTable.ExecuteQuery(new TableQuery<AttendeeRecord>()))
+            foreach (var attendee in attendeeTable.ExecuteQuery(new TableQuery<AttendeeRecord>()))
             {
                 attendees.Add(attendee);
             }
@@ -189,7 +244,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
         List<string> GetAllUserIds()
         {
             var userIds = new List<string>();
-            foreach (var attendee in cloudTable.ExecuteQuery(new TableQuery<AttendeeRecord>()))
+            foreach (var attendee in attendeeTable.ExecuteQuery(new TableQuery<AttendeeRecord>()))
             {
                 userIds.Add(attendee.UserId);
             }
@@ -200,7 +255,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
         List<string> GetAllUserNames()
         {
             var userNames = new List<string>();
-            foreach (var attendee in cloudTable.ExecuteQuery(new TableQuery<AttendeeRecord>()))
+            foreach (var attendee in attendeeTable.ExecuteQuery(new TableQuery<AttendeeRecord>()))
             {
                 userNames.Add(encryptionService.DecryptÁttendeeRecord(attendee).Username);
             }
