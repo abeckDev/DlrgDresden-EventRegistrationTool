@@ -85,6 +85,56 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
             }
         }
 
+        //Get user from memberDb 
+        public string GetMemberIdFromMemberTable(Dictionary<string, string> validationPairs, string logicalOperator = "AND")
+        {
+            switch (logicalOperator)
+            {
+                case "AND":
+                    string query = $"PartitionKey eq '{MemberTablePartitionKey}' and ";
+                    int index = 0;
+                    foreach (var validationPair in validationPairs)
+                    {
+                        if (index != 0)
+                        {
+                            query += " and ";
+                        }
+                        query += $"{validationPair.Key} eq \'{validationPair.Value}\'";
+                        index++;
+                    }
+                    TableQuery tableQuery = new TableQuery()
+                        .Where(query);
+                    var result = memberTable.ExecuteQuery(tableQuery);
+                    if (result.Count() == 1)
+                    {
+                        return result.First().RowKey;
+                    }
+                    return null; ;
+                case "OR":
+                    string query2 = $"PartitionKey eq '{MemberTablePartitionKey}' and ";
+                    int index2 = 0;
+                    foreach (var validationPair in validationPairs)
+                    {
+                        if (index2 != 0)
+                        {
+                            query2 += " or ";
+                        }
+                        query2 += $"{validationPair.Key} eq \'{validationPair.Value}\'";
+                        index2++;
+                    }
+                    TableQuery tableQuery2 = new TableQuery()
+                        .Where(query2);
+                    var result2 = memberTable.ExecuteQuery(tableQuery2);
+                    if (result2.Count() == 1)
+                    {
+                        return result2.First().RowKey;
+                    }
+                    return null;
+                default:
+                    throw new Exception("That operator is not allowed");
+            }
+        }
+
         //Write User to Table Storage
 
         public AttendeeRecord CreateAttendeeRecord(UserRegistrationRequest userRegistration)
@@ -97,9 +147,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
                 Email = userRegistration.EmailAddress,
                 Birthday = userRegistration.Birthday,
                 Address = userRegistration.Address,
-                //ToDo: Activate in Prod as soon as validation is implemented!!!
-                //UserId = userRegistration.UserId,
-                UserId = GenerateUserId(), //I am evil, please remove me in the future
+                UserId = userRegistration.UserId,
                 Username = GenerateUsername(userRegistration.Name, userRegistration.Surname),
                 Password = GenerateRandomPassword(),
             };

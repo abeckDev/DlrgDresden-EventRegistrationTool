@@ -69,8 +69,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
                 Address = InputMessage["address"]
             };
 
-            //ToDo: Validate if user is Eligable for attendance based on Validation Module
-            //If yes, extract userId from CSV and write it to the request
+            //Validate if user is Eligable for attendance based on Validation Module
             Dictionary<string, string> validationParameters = new Dictionary<string, string>()
             {
                 {"vorname", registrationRequest.Name },
@@ -82,6 +81,9 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             {
                 return new BadRequestObjectResult("User not found in member database!");
             }
+            //If yes, extract userId from CSV and write it to the request
+            string memberId = attendeeService.GetMemberIdFromMemberTable(validationParameters, "AND");
+            registrationRequest.UserId = memberId;
 
 
             //ToDo: Check if account exists already (based on mail and attendeeId)
