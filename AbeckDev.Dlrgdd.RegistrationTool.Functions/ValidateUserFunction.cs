@@ -42,7 +42,8 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
                 !InputMessage.ContainsKey("surname") ||
                 !InputMessage.ContainsKey("eMail") ||
                 !InputMessage.ContainsKey("birthday") ||
-                !InputMessage.ContainsKey("address"))
+                !InputMessage.ContainsKey("city") ||
+                !InputMessage.ContainsKey("zip"))
             {
                 return new BadRequestObjectResult("Not all needed parameters are set!");
             }
@@ -61,7 +62,9 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
                 Surname = InputMessage["surname"],
                 EmailAddress = InputMessage["eMail"],
                 Birthday = UserBirthday.ToString(),
-                Address = InputMessage["address"]
+                City = InputMessage["city"],
+                ZipCode = InputMessage["zip"]
+
             };
 
             //ToDo: Validate if user is Eligable for attendance based on Validation Module
@@ -69,7 +72,8 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             {
                 {"vorname", registrationRequest.Name },
                 {"nachname", registrationRequest.Surname },
-                {"strasse", registrationRequest.Address },
+                {"ort", registrationRequest.City },
+                {"plz", registrationRequest.ZipCode },
                 {"geburtsdat", $"{UserBirthday.Day.ToString("00")}/{UserBirthday.Month.ToString("00")}/{UserBirthday.Year.ToString()}" }
             };
             if (!attendeeService.IsValidMember(validationParameters, "AND"))
