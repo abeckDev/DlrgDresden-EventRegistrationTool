@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AzureFunctionsVersion>v3</AzureFunctionsVersion>
-    <Version>0.1.3</Version>
+    <Version>0.1.6</Version>
     <Authors>AbeckDev</Authors>
     <Company>DLRG Bezirk Dresden e. V.</Company>
     <Description>A set of functions used to validate and handle user registration of events with an Azure Service Bus and Storage Account backend.</Description>

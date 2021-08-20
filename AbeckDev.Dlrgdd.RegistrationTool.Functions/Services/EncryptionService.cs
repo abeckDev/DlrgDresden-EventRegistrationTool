@@ -29,7 +29,8 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
                 attendeeRecord.Surname = EncryptString(attendeeRecord.Surname);
                 attendeeRecord.Email = EncryptString(attendeeRecord.Email);
                 attendeeRecord.Birthday = EncryptString(attendeeRecord.Birthday);
-                attendeeRecord.Address = EncryptString(attendeeRecord.Address);
+                attendeeRecord.City = EncryptString(attendeeRecord.City);
+                attendeeRecord.ZipCode = EncryptString(attendeeRecord.ZipCode);
                 attendeeRecord.Password = EncryptString(attendeeRecord.Password);
                 attendeeRecord.Username = EncryptString(attendeeRecord.Username);
                 attendeeRecord.IsEncrypted = true;
@@ -46,7 +47,8 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
                 attendeeRecord.Surname = DecryptString(attendeeRecord.Surname);
                 attendeeRecord.Email = DecryptString(attendeeRecord.Email);
                 attendeeRecord.Birthday = DecryptString(attendeeRecord.Birthday);
-                attendeeRecord.Address = DecryptString(attendeeRecord.Address);
+                attendeeRecord.City = DecryptString(attendeeRecord.City);
+                attendeeRecord.ZipCode = DecryptString(attendeeRecord.ZipCode);
                 attendeeRecord.Password = DecryptString(attendeeRecord.Password);
                 attendeeRecord.Username = DecryptString(attendeeRecord.Username);
                 attendeeRecord.IsEncrypted = false;
@@ -65,7 +67,8 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
                 creationRequest.Surname = EncryptString(creationRequest.Surname);
                 creationRequest.EmailAddress = EncryptString(creationRequest.EmailAddress);
                 creationRequest.Birthday = EncryptString(creationRequest.Birthday);
-                creationRequest.Address = EncryptString(creationRequest.Address);
+                creationRequest.City = EncryptString(creationRequest.City);
+                creationRequest.ZipCode = EncryptString(creationRequest.ZipCode);
                 if (creationRequest.UserId != null)
                 {
                     creationRequest.UserId = EncryptString(creationRequest.UserId);
@@ -84,8 +87,8 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
                 creationRequest.Surname = DecryptString(creationRequest.Surname);
                 creationRequest.EmailAddress = DecryptString(creationRequest.EmailAddress);
                 creationRequest.Birthday = DecryptString(creationRequest.Birthday);
-                creationRequest.Address = DecryptString(creationRequest.Address);
-
+                creationRequest.City = DecryptString(creationRequest.City);
+                creationRequest.ZipCode = DecryptString(creationRequest.ZipCode);
                 if (creationRequest.UserId != null)
                 {
                     creationRequest.UserId = DecryptString(creationRequest.UserId);
