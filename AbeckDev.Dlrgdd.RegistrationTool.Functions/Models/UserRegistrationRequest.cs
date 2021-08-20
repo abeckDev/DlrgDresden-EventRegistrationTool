@@ -14,7 +14,8 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Models
 
         public string EmailAddress { get; set; }
 
-        public string Address { get; set; }
+        public string City { get; set; }
+        public string ZipCode { get; set; }
 
         public string Birthday { get; set; }
 
