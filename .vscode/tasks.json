@@ -2,21 +2,7 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "clean (functions)",
-      "command": "dotnet",
-      "args": [
-        "clean",
-        "/property:GenerateFullPaths=true",
-        "/consoleloggerparameters:NoSummary"
-      ],
-      "type": "process",
-      "problemMatcher": "$msCompile",
-      "options": {
-        "cwd": "${workspaceFolder}/AbeckDev.Dlrgdd.RegistrationTool.Functions"
-      }
-    },
-    {
-      "label": "clean (BlazorApp)",
+      "label": "Frontend - clean",
       "command": "dotnet",
       "args": [
         "clean",
@@ -30,7 +16,21 @@
       }
     },
     {
-      "label": "build (BlazorApp)",
+      "label": "Frontend - restore",
+      "command": "dotnet",
+      "args": [
+        "restore",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "type": "process",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/AbeckDev.Dlrgdd.RegistrationTool.Frontend"
+      }
+    },
+    {
+      "label": "Frontend - build",
       "command": "dotnet",
       "args": [
         "build",
@@ -38,7 +38,7 @@
         "/consoleloggerparameters:NoSummary"
       ],
       "type": "process",
-      "dependsOn": "clean (BlazorApp)",
+      "dependsOn": "Frontend - clean",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -49,7 +49,7 @@
       }
     },
     {
-      "label": "build (functions)",
+      "label": "Function - Build",
       "command": "dotnet",
       "args": [
         "build",
@@ -57,7 +57,7 @@
         "/consoleloggerparameters:NoSummary"
       ],
       "type": "process",
-      "dependsOn": "clean (functions)",
+      "dependsOn": "Function - clean",
       "group": {
         "kind": "build",
         "isDefault": true
@@ -68,7 +68,7 @@
       }
     },
     {
-      "label": "clean release (functions)",
+      "label": "Function - clean release",
       "command": "dotnet",
       "args": [
         "clean",
@@ -84,7 +84,7 @@
       }
     },
     {
-      "label": "publish (functions)",
+      "label": "Function - publish",
       "command": "dotnet",
       "args": [
         "publish",
@@ -94,17 +94,32 @@
         "/consoleloggerparameters:NoSummary"
       ],
       "type": "process",
-      "dependsOn": "clean release (functions)",
+      "dependsOn": "Function - clean",
       "problemMatcher": "$msCompile",
       "options": {
         "cwd": "${workspaceFolder}/AbeckDev.Dlrgdd.RegistrationTool.Functions"
       }
     },
     {
+      "label": "Function - clean",
+      "command": "dotnet",
+      "args": [
+        "clean",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "type": "process",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/AbeckDev.Dlrgdd.RegistrationTool.Functions"
+      }
+    },
+    {
+      "label": "Function - Start with CLI",
       "type": "func",
       "dependsOn": "build (functions)",
       "options": {
-        "cwd": "${workspaceFolder}/AbeckDev.Dlrgdd.RegistrationTool.Functions/bin/Debug/netcoreapp3.1"
+        "cwd": "${workspaceFolder}/AbeckDev.Dlrgdd.RegistrationTool.Functions"
       },
       "command": "host start",
       "isBackground": true,
