@@ -16,6 +16,39 @@
       }
     },
     {
+      "label": "clean (BlazorApp)",
+      "command": "dotnet",
+      "args": [
+        "clean",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "type": "process",
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/AbeckDev.Dlrgdd.RegistrationTool.Frontend"
+      }
+    },
+    {
+      "label": "build (BlazorApp)",
+      "command": "dotnet",
+      "args": [
+        "build",
+        "/property:GenerateFullPaths=true",
+        "/consoleloggerparameters:NoSummary"
+      ],
+      "type": "process",
+      "dependsOn": "clean (BlazorApp)",
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": "$msCompile",
+      "options": {
+        "cwd": "${workspaceFolder}/AbeckDev.Dlrgdd.RegistrationTool.Frontend"
+      }
+    },
+    {
       "label": "build (functions)",
       "command": "dotnet",
       "args": [
