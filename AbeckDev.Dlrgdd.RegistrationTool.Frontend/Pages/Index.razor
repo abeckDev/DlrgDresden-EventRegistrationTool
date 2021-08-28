@@ -13,18 +13,22 @@
 
 <Row>
     <Column Margin="Margin.Is2.FromTop">
-        <Text Class="text-center">        
+        <Text Class="text-center">
             <h2>Jahreshauptversammlung DLRG Bezirk Dresden e. V. - Online Anmeldung</h2>
         </Text>
 
-         <Card>
+        <Card>
             <CardBody>
                 <CardText>
                     <Text>
-                        Aufgrund der Coronaviruspandemie, wir die diesjährige Jahreshauptversammlung der DLRG Dresden als Online Event stattfinden.
-                        Um einen korrekten Ablauf der Veranstaltung gewährleisten zu können müssen nun zusätzliche Tools für Abstimmung und Konferenz bereitgestellt werden.
-                        Daher wird die Anmeldung zur Jahreshauptversammlung auch erstmalig online und automatisiert stattfinden. 
-                        In den folgenden Abschnitten finden Sie alle weitere benötigten Informationen zur diesjährigen Veranstaltung inkl. dem Anmeldeformular. 
+                        Aufgrund der Coronaviruspandemie, wir die diesjährige Jahreshauptversammlung der DLRG Dresden
+                        als Online Event stattfinden.
+                        Um einen korrekten Ablauf der Veranstaltung gewährleisten zu können müssen nun zusätzliche Tools
+                        für Abstimmung und Konferenz bereitgestellt werden.
+                        Daher wird die Anmeldung zur Jahreshauptversammlung auch erstmalig online und automatisiert
+                        stattfinden.
+                        In den folgenden Abschnitten finden Sie alle weitere benötigten Informationen zur diesjährigen
+                        Veranstaltung inkl. dem Anmeldeformular.
                     </Text>
                 </CardText>
             </CardBody>
@@ -42,15 +46,28 @@
                 }
                 else
                 {
-                    <CardText>
-                        <Alert Color="Color.Success" Visible="true">
-                            <AlertDescription Class="text-center">Anmeldungen zur Jahreshauptversammlung sind noch möglich!</AlertDescription>
+                    @if (metaInformation.IsRegistrationDeadlineReached)
+                    {
+                        <Alert Color="Color.Danger" Visible="true">
+                            <AlertDescription Class="text-center">Anmeldungen zur Jahreshauptversammlung sind nicht mehr
+                                möglich!
+                            </AlertDescription>
                         </Alert>
-                        <Text Class="text-center" style="font-weight:700" >
-                            Der Anmeldeschluss ist der: @Deadline
-                            <Button Color="Color.Primary">Zur Anmeldung!</Button>
-                        </Text>
-                    </CardText>
+                    }
+                    else
+                    {
+                        <CardText>
+                            <Alert Color="Color.Success" Visible="true">
+                                <AlertDescription Class="text-center">Anmeldungen zur Jahreshauptversammlung sind noch möglich!
+                                </AlertDescription>
+                            </Alert>
+                            <Text Class="text-center" style="font-weight:700">
+                                Der Anmeldeschluss ist der: @Deadline
+                                <br />
+                                <Button Color="Color.Primary">Zur Anmeldung!</Button>
+                            </Text>
+                        </CardText>
+                    }
                 }
             </CardBody>
         </Card>
@@ -63,19 +80,24 @@
                 <CardText>
                     <h3>Was ist die Weisheit des Tages?</h3>
                     <Paragraph>
-                        Die Weisheit des Tages ist ein einfacher Webservice der jeden Tag eine neue Weisheit aus dem Bereich des Rettungsschwimmen in form einer JSON Nachricht ausgibt.
+                        Die Weisheit des Tages ist ein einfacher Webservice der jeden Tag eine neue Weisheit aus dem
+                        Bereich des Rettungsschwimmen in form einer JSON Nachricht ausgibt.
                     </Paragraph>
                     <Paragraph>
-                        Die Weisheit des Tages Plattform als Quelle von anderen Webseiten, Apps, Shells o.ä. verwendet werden um den Besuchern täglich einen neuen Fakt anzuzeigen.
+                        Die Weisheit des Tages Plattform als Quelle von anderen Webseiten, Apps, Shells o.ä. verwendet
+                        werden um den Besuchern täglich einen neuen Fakt anzuzeigen.
                     </Paragraph>
                     <Paragraph>
-                        Die Weisheiten wurden von der Community gesammelt und nach einem Review freigegeben um Sicherzustellen, dass keine unangemessenen Inhalte veröffentlicht werden.
+                        Die Weisheiten wurden von der Community gesammelt und nach einem Review freigegeben um
+                        Sicherzustellen, dass keine unangemessenen Inhalte veröffentlicht werden.
                     </Paragraph>
                     <Paragraph>
-                        Vorschläge für neuen Weisheiten können über diese Webseite eingereicht werden. Bitte verwendet dazu den Button oben rechts.
+                        Vorschläge für neuen Weisheiten können über diese Webseite eingereicht werden. Bitte verwendet
+                        dazu den Button oben rechts.
                     </Paragraph>
                     <Paragraph>
-                        Wenngleich auch einige Weisheiten einen Bezug zur DLRG herstellen, handelt es sich hierbei <strong>nicht um einen offiziellen Dienst der DLRG oder des ISC der DLRG.</strong>
+                        Wenngleich auch einige Weisheiten einen Bezug zur DLRG herstellen, handelt es sich hierbei
+                        <strong>nicht um einen offiziellen Dienst der DLRG oder des ISC der DLRG.</strong>
                     </Paragraph>
                 </CardText>
             </CardBody>
@@ -89,7 +111,13 @@
                 <CardText>
                     <h3>Verwendungsmöglichkeiten</h3>
                     <Paragraph>
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
+                        ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+                        dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor
+                        sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor
+                        invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et
+                        justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem
+                        ipsum dolor sit amet.
                     </Paragraph>
                 </CardText>
             </CardBody>
@@ -104,7 +132,8 @@
                     <h3>Mach mit!</h3>
                     <Paragraph>
                         Wir sind immer auf der suche nach neuen Weisheiten!
-                        Wenn du deine Weisheit mit der Community teilen möchtest, dann schlage uns deine Weisheit über den Button oben rechts vor.
+                        Wenn du deine Weisheit mit der Community teilen möchtest, dann schlage uns deine Weisheit über
+                        den Button oben rechts vor.
                     </Paragraph>
                     <Paragraph>
                         <strong>Bitte beachte unbedingt die folgenden Richtlinien:</strong>
@@ -135,32 +164,42 @@ Anmeldeschluss: @metaInformation.RegistrationDeadline
 
 Deadline bis zur Anmeldefrist
 
-Kurze Erläuterung 
+Kurze Erläuterung
 
-Mit Link zur Anmeldung. 
+Mit Link zur Anmeldung.
 
 @code {
 
     MetadataInformation metaInformation = new MetadataInformation();
 
     string Deadline;
+    bool IsDeadlineReached;
 
-	protected override async Task OnInitializedAsync() 
+    protected override async Task OnInitializedAsync()
     {
         metaInformation = await GetMetaInformation();
-        Deadline = metaInformation.RegistrationDeadline.Day + "." + metaInformation.RegistrationDeadline.Month + "." + metaInformation.RegistrationDeadline.Year;
+        Deadline = metaInformation.RegistrationDeadline.Day + "." + metaInformation.RegistrationDeadline.Month + "." +
+        metaInformation.RegistrationDeadline.Year;
     }
-        
-    
 
 
-	private async Task<MetadataInformation> GetMetaInformation()
-	{
-		var response = await Http.GetFromJsonAsync<MetadataInformation>("api/EventMetadataFunction");
+
+
+    private async Task<MetadataInformation> GetMetaInformation()
+    {
+        var response = await Http.GetFromJsonAsync<MetadataInformation>("api/EventMetadataFunction");
         response.IsLoaded = true;
-		return response;
-	}
+        response.IsRegistrationDeadlineReached = GetIsDeadlineReached(response.RegistrationDeadline);
+        return response;
+    }
 
+    private bool GetIsDeadlineReached(DateTime firstDate)
+    {
+        if (DateTime.Compare(firstDate, DateTime.Now) < 0)
+        {
+            return true;
+        }
+        return false;
+    }
 
-	  
 }
