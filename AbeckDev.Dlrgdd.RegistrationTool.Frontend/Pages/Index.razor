@@ -176,8 +176,7 @@ Mit Link zur Anmeldung.
     protected override async Task OnInitializedAsync()
     {
         metaInformation = await GetMetaInformation();
-        Deadline = metaInformation.RegistrationDeadline.Day + "." + metaInformation.RegistrationDeadline.Month + "." +
-        metaInformation.RegistrationDeadline.Year;
+        Deadline = metaInformation.RegistrationDeadline.ToString("dd.MM.yyyy");
     }
 
 
