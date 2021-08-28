@@ -1,6 +1,7 @@
 ﻿@page "/Registration"
 @using System.Net.Http
 @inject HttpClient Http
+@inject NavigationManager NavManager
 @using System.Net.Http.Json
 @using Newtonsoft.Json
 
@@ -202,8 +203,24 @@
             if (response.IsSuccessStatusCode)
             {
                 //Validation was correct, proceed with request 
-                string hallo = "You did it!";
-                var debug = hallo;
+                var creationResponse = await Http.PostAsJsonAsync("api/UserRegistrationFunction", UserRegistrationRequest);
+                var creationResponseMessage = await creationResponse.Content.ReadAsStringAsync();
+                if (creationResponse.IsSuccessStatusCode)
+                {
+                    //Redirect to Success Page
+                    NavManager.NavigateTo("/RegistrationComplete");
+                }
+                else
+                {
+                    //Validation Error, restore Form and display error
+                    AlertText = "Ein kritischer Fehler ist aufgetreten. Bitte melden Sie sich beim Support mit der Fehlermeldung: CREATION-" + creationResponseMessage;
+                    IsAlertVisible = true;
+
+                    //Reactive Button and disable progress
+                    IsButtonDisabled = false;
+                    IsButtonLoading = false;
+                    StateHasChanged();
+                }
 
             }
             else

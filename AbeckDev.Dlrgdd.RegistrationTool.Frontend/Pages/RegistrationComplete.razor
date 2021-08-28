@@ -1,0 +1,50 @@
+﻿@page "/RegistrationComplete"
+<Breadcrumb>
+    <BreadcrumbItem>
+        <BreadcrumbLink To="">Startseite</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+        <BreadcrumbLink To="/registration">Anmeldung</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+        Anmeldung erfolgreich
+    </BreadcrumbItem>
+</Breadcrumb>
+
+<Row>
+    <Column Margin="Margin.Is2.FromTop">
+        <Text Class="text-center">
+            <h2>Jahreshauptversammlung DLRG Bezirk Dresden e. V. - Online Anmeldung</h2>
+        </Text>
+
+        <Card>
+            <CardBody>
+                <CardText>
+                    <Text>
+                        Aufgrund der Coronaviruspandemie, wir die diesjährige Jahreshauptversammlung der DLRG Dresden
+                        als Online Event stattfinden.
+                        Um einen korrekten Ablauf der Veranstaltung gewährleisten zu können müssen nun zusätzliche Tools
+                        für Abstimmung und Konferenz bereitgestellt werden.
+                        Daher wird die Anmeldung zur Jahreshauptversammlung auch erstmalig online und automatisiert
+                        stattfinden.
+                    </Text>
+                </CardText>
+            </CardBody>
+        </Card>
+        <Text Class="text-center" Margin="Margin.Is4.FromTop">
+            <h3>Anmeldung erfolgreich!</h3>
+        </Text>
+        <CardText>
+            <Alert Color="Color.Success" Visible="true">
+                <AlertDescription Class="text-center">
+                    Deine Anmeldung zur Jahreshauptversammlung war erfolgreich! Du erhältst nun in kürze eine E-Mail von uns mit den Informationen zum weiteren Vorgehen. 
+                    Bitte überprüfe auch deinen Spamfilter ob die E-Mail versentlich als Werbung erkannt wurde. Bei weiteren Fragen zur Veranstaltung kannst du dich an den Support wenden.
+                </AlertDescription>
+            </Alert>
+        </CardText>    
+    </Column>
+</Row>
+
+@code {
+
+}
