@@ -184,7 +184,7 @@ Mit Link zur Anmeldung.
 
     private async Task<MetadataInformation> GetMetaInformation()
     {
-        var response = await Http.GetFromJsonAsync<MetadataInformation>("api/EventMetadataFunction");
+        var response = await Http.GetFromJsonAsync<MetadataInformation>("EventMetadataFunction");
         response.IsLoaded = true;
         response.IsRegistrationDeadlineReached = GetIsDeadlineReached(response.RegistrationDeadline);
         return response;

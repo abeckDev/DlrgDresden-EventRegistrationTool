@@ -51,7 +51,7 @@
                     </AlertDescription>
                 </Alert>
                 <CardText>Bitte füllen das unten stehende Formular wahrheitsgemäß aus. Aufgrund deiner Angaben zur
-                    Mitgliedschaft werden wir überprüfen ob eine Anmelde- und Stimmberechtigung vorliegt. 
+                    Mitgliedschaft werden wir überprüfen ob eine Anmelde- und Stimmberechtigung vorliegt.
                 </CardText>
             </CardBody>
             <CardBody>
@@ -198,12 +198,12 @@
                 Birthday = Birthday.ToString("dd.MM.yyyy"),
             };
             //Check with Backend if user is valid
-            var response = await Http.PostAsJsonAsync("api/ValidateUserFunction", UserRegistrationRequest);
+            var response = await Http.PostAsJsonAsync("ValidateUserFunction", UserRegistrationRequest);
             var responseMessage = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
             {
-                //Validation was correct, proceed with request 
-                var creationResponse = await Http.PostAsJsonAsync("api/UserRegistrationFunction", UserRegistrationRequest);
+                //Validation was correct, proceed with request
+                var creationResponse = await Http.PostAsJsonAsync("UserRegistrationFunction", UserRegistrationRequest);
                 var creationResponseMessage = await creationResponse.Content.ReadAsStringAsync();
                 if (creationResponse.IsSuccessStatusCode)
                 {
@@ -213,7 +213,8 @@
                 else
                 {
                     //Validation Error, restore Form and display error
-                    AlertText = "Ein kritischer Fehler ist aufgetreten. Bitte melden Sie sich beim Support mit der Fehlermeldung: CREATION-" + creationResponseMessage;
+                    AlertText = "Ein kritischer Fehler ist aufgetreten. Bitte melden Sie sich beim Support mit der Fehlermeldung: CREATION-"
+                    + creationResponseMessage;
                     IsAlertVisible = true;
 
                     //Reactive Button and disable progress
