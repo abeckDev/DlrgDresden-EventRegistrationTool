@@ -16,33 +16,31 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Frontend.Themes
         {
             BarOptions = new ThemeBarOptions
             {
-                HorizontalHeight = "64px",
-                //LightColors = new ThemeBarColorOptions()
+                //HorizontalHeight = "64px", //64
+                //LightColors = new ThemeBarColorOptions
                 //{
-                //    BackgroundColor = DlrgRed,
-                //    Color = DlrgYellow,
-                //    ItemColorOptions = new ThemeBarItemColorOptions
-                //    {
-                //        HoverColor = "#02D248",
-                //        HoverBackgroundColor = "#6c757d",
-                //        ActiveBackgroundColor = "#2993EF",
-                //        ActiveColor = "#5E550A"
-
-                //    }
+                    //BackgroundColor = DlrgYellow,
+                    //Color = DlrgGray,
+                    //DropdownColorOptions = new ThemeBarDropdownColorOptions
+                    //{
+                    //    BackgroundColor = "#ffffff"
+                    //},
+                    //ItemColorOptions = new ThemeBarItemColorOptions
+                    //{
+                    //    HoverColor = "#02D248",
+                    //    HoverBackgroundColor = "#6c757d",
+                    //    ActiveBackgroundColor = "#2993EF",
+                    //    ActiveColor = "#5E550A"
+                    //}
                 //},
-                VerticalBrandHeight = "100",
-
-
-            },
-            BreakpointOptions = new ThemeBreakpointOptions
-            {
+                //VerticalBrandHeight = "100",
             },
             ColorOptions = new ThemeColorOptions
             {
                 Primary = DlrgRed,
                 Secondary = DlrgYellow,
                 //Success = "#23C02E",
-                Info = "#9BD8FE",
+                //Info = "#9BD8FE",
                 //Warning = "#F8B86C",
                 //Danger = "#F95741",
                 //Light = "#F0F0F0",
@@ -50,18 +48,20 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Frontend.Themes
             },
             BackgroundOptions = new ThemeBackgroundOptions
             {
-                Primary = "#e30613",
+                Primary = DlrgRed,
+
             },
             TextColorOptions = new ThemeTextColorOptions
             {
+                
                 Secondary = DlrgYellow,
             },
-            //ButtonOptions = new ThemeButtonOptions { },
-            //DropdownOptions = new ThemeDropdownOptions { },
             InputOptions = new ThemeInputOptions
             {
                 CheckColor = "#0288D1",
             },
+            //ButtonOptions = new ThemeButtonOptions { },
+            //DropdownOptions = new ThemeDropdownOptions { },
             //CardOptions = new ThemeCardOptions { },
             //ModalOptions = new ThemeModalOptions { },
             //TabsOptions = new ThemeTabsOptions { },
@@ -75,6 +75,9 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Frontend.Themes
             //    BackgroundColor = "#22c8ce",
             //    BackgroundOpacity = .7f,
             //    Color = "#ff0000",
+            //},
+            //BreakpointOptions = new ThemeBreakpointOptions
+            //{
             //},
         };
     }

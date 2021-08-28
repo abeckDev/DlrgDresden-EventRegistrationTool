@@ -29,7 +29,9 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Frontend
 
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+           
+
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]) });
 
             await builder.Build().RunAsync();
         }

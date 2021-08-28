@@ -45,7 +45,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
 
             if (!InputMessage.ContainsKey("name") ||
                 !InputMessage.ContainsKey("surname") ||
-                !InputMessage.ContainsKey("eMail") ||
+                !InputMessage.ContainsKey("email") ||
                 !InputMessage.ContainsKey("birthday") ||
                 !InputMessage.ContainsKey("city") ||
                 !InputMessage.ContainsKey("zip"))
@@ -65,7 +65,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             {
                 Name = InputMessage["name"],
                 Surname = InputMessage["surname"],
-                EmailAddress = InputMessage["eMail"],
+                EmailAddress = InputMessage["email"],
                 Birthday = UserBirthday.ToString(),
                 City = InputMessage["city"],
                 ZipCode = InputMessage["zip"]

@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Frontend Debug",
+            "type": "blazorwasm",
+            "request": "launch",
+            "preLaunchTask": "Frontend - build",
+            "browser": "edge",
+            "cwd": "${workspaceFolder}/AbeckDev.Dlrgdd.RegistrationTool.Frontend"
+        },
+        {
+            "name": "Azure Function Debug",
+            "type": "coreclr",
+            "request": "attach",
+            "processId": "${command:azureFunctions.pickProcess}"
+        }
+    ]
+}

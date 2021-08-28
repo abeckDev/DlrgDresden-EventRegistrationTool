@@ -1,4 +1,4 @@
-<Blazorise.ThemeProvider Theme="DlrgTheme.MainTheme">
+<Blazorise.ThemeProvider Theme="@theme">
     <Router AppAssembly="typeof(App).Assembly">
         <Found Context="routeData">
             <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)" />
@@ -8,3 +8,7 @@
         </NotFound>
     </Router>
 </Blazorise.ThemeProvider>
+
+@code{
+    private Theme theme = Dlrgdd.RegistrationTool.Frontend.Themes.DlrgTheme.MainTheme;
+}
