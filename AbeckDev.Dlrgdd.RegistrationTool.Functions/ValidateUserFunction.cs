@@ -30,7 +30,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             //Check if Deadline is already reached
             if (metaInformationService.IsRegistrationDeadlineReached())
             {
-                return new BadRequestObjectResult("Registration not possible. Event Deadline Reached!");
+                return new BadRequestObjectResult("Registrierung nicht mehr möglich. Anmeldeschluss erreicht!");
             }
 
 
@@ -40,7 +40,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
 
             if (!InputMessage.ContainsKey("name") ||
                 !InputMessage.ContainsKey("surname") ||
-                !InputMessage.ContainsKey("eMail") ||
+                !InputMessage.ContainsKey("email") ||
                 !InputMessage.ContainsKey("birthday") ||
                 !InputMessage.ContainsKey("city") ||
                 !InputMessage.ContainsKey("zip"))
@@ -60,7 +60,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             {
                 Name = InputMessage["name"],
                 Surname = InputMessage["surname"],
-                EmailAddress = InputMessage["eMail"],
+                EmailAddress = InputMessage["email"],
                 Birthday = UserBirthday.ToString(),
                 City = InputMessage["city"],
                 ZipCode = InputMessage["zip"]
@@ -78,7 +78,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             };
             if (!attendeeService.IsValidMember(validationParameters, "AND"))
             {
-                return new BadRequestObjectResult("User not found in member database!");
+                return new BadRequestObjectResult("Zu diesem Benutzer konnte keine Mitgliedschaft gefunden werden! Bitte überprüfe deine Eingaben auf Fehler.");
             }
             //If yes, extract userId from CSV and write it to the request
             string memberId = attendeeService.GetMemberIdFromMemberTable(validationParameters, "AND");
@@ -86,13 +86,13 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             //Check if account exists already via userId
             if (attendeeService.DoesUserExist(memberId))
             {
-                return new BadRequestObjectResult("You are already registered with that membership!");
+                return new BadRequestObjectResult("Für diese Mitgliedschaft liegt bereits eine Registrierung vor!");
             }
 
             //Check if account exists already via E-Mail
             if (attendeeService.IsEmailAlreadyUsed(registrationRequest.EmailAddress))
             {
-                return new BadRequestObjectResult("That E-Mail is already used!");
+                return new BadRequestObjectResult("Diese E-Mail Adresse wurde bereits verwendet!");
             }
 
 

@@ -1,7 +1,230 @@
 ﻿@page "/Registration"
+@using System.Net.Http
+@inject HttpClient Http
+@using System.Net.Http.Json
+@using Newtonsoft.Json
 
-<h3>Registration</h3>
+<Breadcrumb>
+    <BreadcrumbItem>
+        <BreadcrumbLink To="">Startseite</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+        <BreadcrumbLink To="/registration">Anmeldung</BreadcrumbLink>
+    </BreadcrumbItem>
+</Breadcrumb>
+
+<Row>
+    <Column Margin="Margin.Is2.FromTop">
+        <Text Class="text-center">
+            <h2>Jahreshauptversammlung DLRG Bezirk Dresden e. V. - Online Anmeldung</h2>
+        </Text>
+
+        <Card>
+            <CardBody>
+                <CardText>
+                    <Text>
+                        Aufgrund der Coronaviruspandemie, wir die diesjährige Jahreshauptversammlung der DLRG Dresden
+                        als Online Event stattfinden.
+                        Um einen korrekten Ablauf der Veranstaltung gewährleisten zu können müssen nun zusätzliche Tools
+                        für Abstimmung und Konferenz bereitgestellt werden.
+                        Daher wird die Anmeldung zur Jahreshauptversammlung auch erstmalig online und automatisiert
+                        stattfinden.
+                    </Text>
+                </CardText>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column Margin="Margin.Is2.FromTop">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Jahreshauptversammlung - Registrierungsformular</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Alert Color="Color.Danger" Visible="@IsAlertVisible">
+                    <AlertMessage>Fehler bei der Registrierung!</AlertMessage>
+                    <AlertDescription>
+                        @AlertText
+                    </AlertDescription>
+                </Alert>
+                <CardText>Bitte füllen das unten stehende Formular wahrheitsgemäß aus. Aufgrund deiner Angaben zur
+                    Mitgliedschaft werden wir überprüfen ob eine Anmelde- und Stimmberechtigung vorliegt. 
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Container>
+                    <Validations @ref="FormValidation" Mode="ValidationMode.Manual">
+                        <Validation Validator="@ValidationRule.IsNotEmpty">
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Vorname</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <TextEdit @bind-Text="FirstName" Placeholder="Max" />
+                                    <ValidationError>Bitte gib einen gültigen Namen ein!</ValidationError>
+                                    <ValidationSuccess>Ok!</ValidationSuccess>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        <Validation Validator="@ValidationRule.IsNotEmpty">
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Nachname</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <TextEdit @bind-Text="Surname" Placeholder="Mustermann" />
+                                    <ValidationError>Bitte gib einen gültigen Namen ein!</ValidationError>
+                                    <ValidationSuccess>Ok!</ValidationSuccess>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        <Field Horizontal="true">
+                            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Geburtsdatum</FieldLabel>
+                            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                <DateEdit @bind-Date="Birthday" TValue="DateTime" />
+                            </FieldBody>
+                        </Field>
+                        <Validation Validator="@ValidationRule.IsEmail">
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email Adresse
+                                </FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <TextEdit @bind-Text="eMailAddress" Placeholder="max@mustermann.de">
+                                        <Feedback>
+                                            <ValidationSuccess>Ok!</ValidationSuccess>
+                                            <ValidationError>Bitte gib eine gültige E-Mail an!</ValidationError>
+                                        </Feedback>
+                                    </TextEdit>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        <Validation Validator="@ValidationRule.IsNotEmpty">
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Stadt</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <TextEdit @bind-Text="City" Placeholder="Dresden" />
+                                    <ValidationError>Bitte gib eine gültige Stadt ein!</ValidationError>
+                                    <ValidationSuccess>Ok!</ValidationSuccess>
+                                </FieldBody>
+                            </Field>
+
+                        </Validation>
+                        <Validation UsePattern="true">
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Postleitzahl
+                                </FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <TextEdit @bind-Text="ZipCode" Pattern="[0-9]{5}" Placeholder="01129">
+                                        <Feedback>
+                                            <ValidationError>Diese ist keine gültige Postleitzahl!</ValidationError>
+                                            <ValidationSuccess>Ok!</ValidationSuccess>
+                                        </Feedback>
+                                    </TextEdit>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        <Validation Validator="ValidateTos">
+                            <Check TValue="bool" @bind-Checked="IsTosAccepted">
+                                Mit meiner Anmeldung erkenne ich (Hier Dinge einfügen die akzepotiert werden sollen) an.
+                                Mir ist bewusst, dass ich mich pro Mitgliedschaft und E-Mail Adresse nur einmal
+                                registrieren kann.
+                                Mein Stimmrecht darf nur durch mich ausgeübt werden und ein weitergeben der Zugangsdaten
+                                ist nicht erlaubt. (Text ist ein Platzhalter).
+                            </Check>
+                            <ValidationError>Bitte akzeotiere die allgemeinen Bedingungen zur Online
+                                Jahreshauptversammlung.</ValidationError>
+                            <ValidationSuccess>Danke!</ValidationSuccess>
+                        </Validation>
+                        <Button Margin="Margin.Is2.FromTop" Color="Color.Primary" Disabled="@IsButtonDisabled"
+                            Loading="@IsButtonLoading" Clicked="@Submit">Registrieren</Button>
+                    </Validations>
+                </Container>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+
+
+
+
 
 @code {
+
+    //Define Forms variables
+    string FirstName;
+    string Surname;
+    string eMailAddress;
+    string City;
+    string ZipCode;
+    DateTime Birthday;
+    bool IsTosAccepted;
+
+    //Define Form Validator
+    Validations FormValidation;
+
+    //Define Button behaviour
+    bool IsButtonDisabled;
+    bool IsButtonLoading;
+    bool IsAlertVisible;
+    string AlertText;
+
+    void ValidateTos(ValidatorEventArgs e)
+    {
+        e.Status = IsTosAccepted ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+
+
+    async void Submit()
+    {
+        //Validate if all Form Input is Valid
+        if (FormValidation.ValidateAll())
+        {
+            //Deactivate Button and Indicate progress
+            IsButtonDisabled = true;
+            IsButtonLoading = true;
+
+            //Reset Alert if raised
+            IsAlertVisible = false;
+            AlertText = "";
+
+            //Build Model
+            var UserRegistrationRequest = new UserRegistration()
+            {
+                Name = FirstName,
+                Surname = Surname,
+                Email = eMailAddress,
+                City = City,
+                zip = ZipCode,
+                Birthday = Birthday.ToString("dd.MM.yyyy"),
+            };
+            //Check with Backend if user is valid
+            var response = await Http.PostAsJsonAsync("api/ValidateUserFunction", UserRegistrationRequest);
+            var responseMessage = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                //Validation was correct, proceed with request 
+                string hallo = "You did it!";
+                var debug = hallo;
+
+            }
+            else
+            {
+                //Validation Error, restore Form and display error
+                AlertText = responseMessage;
+                IsAlertVisible = true;
+
+                //Reactive Button and disable progress
+                IsButtonDisabled = false;
+                IsButtonLoading = false;
+                StateHasChanged();
+            }
+        }
+    }
+
+    private string FixApiResponseString(string input)
+    {
+        input = input.Replace("\\", string.Empty);
+        input = input.Trim('"');
+        return input;
+    }
 
 }

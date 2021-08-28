@@ -64,7 +64,7 @@
                             <Text Class="text-center" style="font-weight:700">
                                 Der Anmeldeschluss ist der: @Deadline
                                 <br />
-                                <Button Color="Color.Primary">Zur Anmeldung!</Button>
+                                <Button Color="Color.Primary" Type="ButtonType.Link" To="/registration">Zur Anmeldung!</Button>
                             </Text>
                         </CardText>
                     }
@@ -173,8 +173,6 @@ Mit Link zur Anmeldung.
     MetadataInformation metaInformation = new MetadataInformation();
 
     string Deadline;
-    bool IsDeadlineReached;
-
     protected override async Task OnInitializedAsync()
     {
         metaInformation = await GetMetaInformation();
