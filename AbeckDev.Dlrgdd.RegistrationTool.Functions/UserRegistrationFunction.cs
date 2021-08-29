@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -54,7 +55,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             }
 
             //Check if Birthday is valid input 
-            if (!DateTime.TryParse(InputMessage["birthday"], out DateTime UserBirthday))
+            if (!DateTime.TryParseExact(InputMessage["birthday"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime UserBirthday))
             {
                 return new BadRequestObjectResult("Could not parse Birthday!");
             }

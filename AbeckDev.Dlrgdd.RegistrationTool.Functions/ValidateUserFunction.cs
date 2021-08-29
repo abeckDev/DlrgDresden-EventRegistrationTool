@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using AbeckDev.Dlrgdd.RegistrationTool.Functions.Services;
 using System.Collections.Generic;
 using AbeckDev.Dlrgdd.RegistrationTool.Functions.Models;
+using System.Globalization;
 
 namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
 {
@@ -49,8 +50,9 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             }
 
             //Check if Birthday is valid input 
-            if (!DateTime.TryParse(InputMessage["birthday"], out DateTime UserBirthday))
+            if (!DateTime.TryParseExact(InputMessage["birthday"], "dd.MM.yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime UserBirthday))
             {
+                log.LogError("Failed to parse Birthday! Input: " + InputMessage["birthday"].ToString());
                 return new BadRequestObjectResult("Could not parse Birthday!");
             }
 
