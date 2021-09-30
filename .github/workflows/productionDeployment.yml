@@ -27,7 +27,7 @@ jobs:
           tokenSuffix: "__"
           files: AbeckDev.Dlrgdd.RegistrationTool.Frontend/wwwroot/appsettings.json
         env:
-          FunctionEndpoint: "https://jhvregistrationfunctions.azurewebsites.net"
+          FunctionEndpoint: "https://jhvregistrationfunctions.azurewebsites.net/api/"
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
