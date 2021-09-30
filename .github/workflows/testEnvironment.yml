@@ -1,17 +1,15 @@
-name: Frontend - Deploy to Test Environment
+name: Deploy to Test Environment
 
 on:
   workflow_dispatch:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  push:
     branches:
       - main
 
 jobs:
   build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request')
     runs-on: ubuntu-latest
-    name: Build and Deploy Job
+    name: Build and Deploy Frontend to Dev Environment
     steps:
       - uses: actions/checkout@v2
         with:
