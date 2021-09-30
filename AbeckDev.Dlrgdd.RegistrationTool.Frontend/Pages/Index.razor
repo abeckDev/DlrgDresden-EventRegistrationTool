@@ -49,16 +49,29 @@
                     @if (metaInformation.IsRegistrationDeadlineReached)
                     {
                         <Alert Color="Color.Danger" Visible="true">
-                            <AlertDescription Class="text-center">Anmeldungen zur Jahreshauptversammlung sind nicht mehr
+                            <AlertDescription Class="text-center">
+                                Anmeldungen zur Jahreshauptversammlung sind nicht mehr
                                 möglich!
                             </AlertDescription>
                         </Alert>
                     }
-                    else
+                    @if (!metaInformation.IsRegistrationStartReached)
+                    {
+                        <Alert Color="Color.Danger" Visible="true">
+                            <AlertDescription Class="text-center">
+                                Anmeldungen zur Jahreshauptversammlung sind noch nicht
+                                möglich! Anmeldungen werden ab dem @metaInformation.RegistrationStart.ToString("dd.MM.yyyy"); möglich. 
+                            </AlertDescription>
+                        </Alert>
+                    }
+
+                    @if (metaInformation.IsRegistrationStartReached ||
+                        !metaInformation.IsRegistrationDeadlineReached)
                     {
                         <CardText>
                             <Alert Color="Color.Success" Visible="true">
-                                <AlertDescription Class="text-center">Anmeldungen zur Jahreshauptversammlung sind noch möglich!
+                                <AlertDescription Class="text-center">
+                                    Anmeldungen zur Jahreshauptversammlung sind noch möglich!
                                 </AlertDescription>
                             </Alert>
                             <Text Class="text-center" style="font-weight:700">
@@ -107,7 +120,19 @@
         var response = await Http.GetFromJsonAsync<MetadataInformation>("EventMetadataFunction");
         response.IsLoaded = true;
         response.IsRegistrationDeadlineReached = GetIsDeadlineReached(response.RegistrationDeadline);
+        response.IsRegistrationStartReached = IsRegistrationStartReached(response.RegistrationStart);
         return response;
+    }
+
+    private bool IsRegistrationStartReached(DateTime firstDate)
+    {
+        if (DateTime.Compare(firstDate, DateTime.Now) <= 0)
+        {
+
+            return true;
+        }
+
+        return false;
     }
 
     private bool GetIsDeadlineReached(DateTime firstDate)
