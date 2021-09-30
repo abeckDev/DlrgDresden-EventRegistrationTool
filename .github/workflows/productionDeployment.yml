@@ -27,7 +27,7 @@ jobs:
           tokenPrefix: "__"
           # 
           tokenSuffix: "__"
-          # 
+        env:
           FunctionEndpoint: "https://jhvregistrationfunctions.azurewebsites.net"
       - name: Build And Deploy
         id: builddeploy
