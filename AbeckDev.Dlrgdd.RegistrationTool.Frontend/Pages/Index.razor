@@ -60,12 +60,12 @@
                         <Alert Color="Color.Danger" Visible="true">
                             <AlertDescription Class="text-center">
                                 Anmeldungen zur Jahreshauptversammlung sind noch nicht
-                                möglich! Anmeldungen werden ab dem @metaInformation.RegistrationStart.ToString("dd.MM.yyyy"); möglich. 
+                                möglich! Anmeldungen werden ab dem @metaInformation.RegistrationStart.ToString("dd.MM.yyyy") möglich sein. 
                             </AlertDescription>
                         </Alert>
                     }
 
-                    @if (metaInformation.IsRegistrationStartReached ||
+                    @if (metaInformation.IsRegistrationStartReached &&
                         !metaInformation.IsRegistrationDeadlineReached)
                     {
                         <CardText>
