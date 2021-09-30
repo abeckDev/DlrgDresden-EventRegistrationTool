@@ -20,6 +20,15 @@ jobs:
       - uses: actions/checkout@v2
         with:
           submodules: true
+      - name: Replace tokens
+        uses: cschleiden/replace-tokens@v1.1
+        with:
+          # 
+          tokenPrefix: "__"
+          # 
+          tokenSuffix: "__"
+          # 
+          FunctionEndpoint: "https://jhvregistrationfunctions.azurewebsites.net"
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
