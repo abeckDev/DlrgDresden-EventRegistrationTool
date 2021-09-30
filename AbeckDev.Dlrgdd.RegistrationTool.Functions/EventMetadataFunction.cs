@@ -28,7 +28,9 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             return new OkObjectResult(new MetaInformation()
             {
                 RegistrationDeadline = metaInformationService.GetEventRegistrationDeadline(),
-                IsDeadlineReached = metaInformationService.IsRegistrationDeadlineReached()
+                IsDeadlineReached = metaInformationService.IsRegistrationDeadlineReached(),
+                IsRegistrationStartReached = metaInformationService.IsRegistrationStartReached(),
+                IsRegistrationPossible = metaInformationService.IsRegistrationPossible()
             });
         }
     }

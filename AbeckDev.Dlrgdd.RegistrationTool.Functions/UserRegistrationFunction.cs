@@ -39,6 +39,11 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
                 return new BadRequestObjectResult("Registration not possible. Event Deadline Reached!");
             }
 
+            //Check if Registration is already allowed
+            if (!metaInformationService.IsRegistrationStartReached())
+            {
+                return new BadRequestObjectResult("Registration not yet possible. Plese stay tuned!");
+            }
 
             //Validate User Input
             //Get Dictionary out of input

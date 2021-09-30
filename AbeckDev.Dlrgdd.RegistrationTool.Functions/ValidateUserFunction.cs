@@ -34,6 +34,12 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
                 return new BadRequestObjectResult("Registrierung nicht mehr moeglich. Anmeldeschluss erreicht!");
             }
 
+            //Check if Registration is already allowed
+            if (!metaInformationService.IsRegistrationStartReached())
+            {
+                return new BadRequestObjectResult("Registrierung noch nicht moeglich. Bitte gedulden Sie sich noch ein bisschen!");
+            }
+
 
             //Validate User Input
             //Get Dictionary out of input
