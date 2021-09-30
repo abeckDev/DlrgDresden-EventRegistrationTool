@@ -31,7 +31,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             //Check if Deadline is already reached
             if (metaInformationService.IsRegistrationDeadlineReached())
             {
-                return new BadRequestObjectResult("Registrierung nicht mehr möglich. Anmeldeschluss erreicht!");
+                return new BadRequestObjectResult("Registrierung nicht mehr moeglich. Anmeldeschluss erreicht!");
             }
 
 
@@ -80,7 +80,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             };
             if (!attendeeService.IsValidMember(validationParameters, "AND"))
             {
-                return new BadRequestObjectResult("Zu diesem Benutzer konnte keine Mitgliedschaft gefunden werden! Bitte überprüfe deine Eingaben auf Fehler.");
+                return new BadRequestObjectResult("Zu diesem Benutzer konnte keine Mitgliedschaft gefunden werden! Bitte ueberpruefe deine Eingaben auf Fehler.");
             }
             //If yes, extract userId from CSV and write it to the request
             string memberId = attendeeService.GetMemberIdFromMemberTable(validationParameters, "AND");
@@ -88,7 +88,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             //Check if account exists already via userId
             if (attendeeService.DoesUserExist(memberId))
             {
-                return new BadRequestObjectResult("Für diese Mitgliedschaft liegt bereits eine Registrierung vor!");
+                return new BadRequestObjectResult("Fuer diese Mitgliedschaft liegt bereits eine Registrierung vor!");
             }
 
             //Check if account exists already via E-Mail
@@ -96,6 +96,9 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             {
                 return new BadRequestObjectResult("Diese E-Mail Adresse wurde bereits verwendet!");
             }
+
+
+
 
 
 
