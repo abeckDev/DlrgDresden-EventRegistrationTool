@@ -80,7 +80,7 @@
                         <Field Horizontal="true">
                             <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Geburtsdatum</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
-                                <DateEdit @bind-Date="Birthday" TValue="DateTime" />
+                                <DateEdit @bind-Date="@BirthdayInput" TValue="DateTime?" />
                             </FieldBody>
                         </Field>
                         <Validation Validator="@ValidationRule.IsEmail">
@@ -156,6 +156,7 @@
     string City;
     string ZipCode;
     DateTime Birthday;
+    DateTime? BirthdayInput;
     bool IsTosAccepted;
 
     //Define Form Validator
@@ -185,6 +186,7 @@
             //Reset Alert if raised
             IsAlertVisible = false;
             AlertText = "";
+            Birthday = BirthdayInput ?? DateTime.Now;
 
             //Build Model
             var UserRegistrationRequest = new UserRegistration()
