@@ -13,7 +13,7 @@ jobs:
     env:
       AZURE_FUNCTIONAPP_NAME: jhvtestregistrationfunctions  # set this to your application's name
       AZURE_FUNCTIONAPP_PACKAGE_PATH: 'AbeckDev.Dlrgdd.RegistrationTool.Functions/'    # set this to the path to your web app project, defaults to the repository root
-      DOTNET_VERSION: '3.3.1'              # set this to the dotnet version to use
+      DOTNET_VERSION: '3.1.412'              # set this to the dotnet version to use
     steps:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@v2
