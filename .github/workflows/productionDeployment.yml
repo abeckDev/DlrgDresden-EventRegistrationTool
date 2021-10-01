@@ -2,6 +2,8 @@ name: Deployment to production Environment
 
 on:
   release:
+      types: [released]
+
 
 jobs:
   build_and_deploy_functions:
