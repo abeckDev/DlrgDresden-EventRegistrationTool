@@ -237,7 +237,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
 
 
         //Get specific attendee record
-        AttendeeRecord GetAttendeeRecord(string userId)
+        public AttendeeRecord GetAttendeeRecord(string userId)
         {
             try
             {
