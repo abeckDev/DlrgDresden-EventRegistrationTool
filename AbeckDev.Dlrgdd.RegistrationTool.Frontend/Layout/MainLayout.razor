@@ -27,7 +27,7 @@
             </BarStart>
             <BarEnd>
                 <BarItem>
-                    <BarLink To=""><Text Color="TextColor.White"><BarIcon IconName="IconName.User" /> </Text></BarLink>
+                    <BarLink  style="color:white" To="/registration">Anmeldung</BarLink>
                 </BarItem>
             </BarEnd>
         </BarMenu>
@@ -40,3 +40,82 @@
     DLRG Bezirk Dresden e. V. - 2021  - <a href="mailto:online-dienste@dresden.dlrg.de">Support kontaktieren</a>
   </LayoutFooter>
 </Layout>
+
+<Modal @ref="accountLookupRef">
+    <ModalBackdrop />
+    <ModalContent IsCentered="true">
+        <ModalHeader>
+            <ModalTitle>Meine Registrierung aufrufen</ModalTitle>
+            <CloseButton Clicked="@HideModal" />
+        </ModalHeader>
+        <ModalBody>
+            <Paragraph>Hier können Sie ihre bestehende Registrierung zur Veranstaltung aufrufen und bearbeiten.</Paragraph>
+            <Paragraph>
+               Bitte geben sie die unten stehenden Informationen zu Ihrer Anmeldung an.
+            </Paragraph>
+            <Divider />
+            <Validation Validator="@ValidateNotEmpty">
+                <Field>
+                    <FieldLabel>Anmeldungs ID</FieldLabel>
+                    <TextEdit @bind-Text="userId" Placeholder="081542">
+                        <Feedback>
+                            <ValidationError>Dieses Feld darf nicht leer sein.</ValidationError>
+                        </Feedback>
+                    </TextEdit>
+
+                </Field>
+            </Validation>
+            <Validation Validator="@ValidateNotEmpty">
+                <Field>
+                    <FieldLabel>E-Mail Adresse</FieldLabel>
+                    <TextEdit @bind-Text="eMail" Placeholder="max@mustermann.de">
+                        <Feedback>
+                            <ValidationError>Dieses Feld darf nicht leer sein.</ValidationError>
+                        </Feedback>
+                    </TextEdit>
+                </Field>
+            </Validation>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Schließen</Button>
+            <Button Color="Color.Primary" @bind-Loading="isButtonLoading" Clicked="@GetMyRegistration">Weisheit einreichen</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+@code {
+
+    string userId;
+    string eMail;
+
+    private async Task GetMyRegistration()
+    {
+        //Loading Button
+        isButtonLoading = true;
+
+        
+    } 
+
+    //Model References
+    private Modal accountLookupRef;
+    private bool isButtonLoading = false;
+
+    public void ShowModal()
+    {
+        accountLookupRef.Show();
+    }
+
+    private void HideModal()
+    {
+        accountLookupRef.Hide();
+    }
+
+    void ValidateNotEmpty(ValidatorEventArgs e)
+    {
+        e.Status = Convert.ToString(e.Value)?.Length >= 1 ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+
+
+
+
+}
