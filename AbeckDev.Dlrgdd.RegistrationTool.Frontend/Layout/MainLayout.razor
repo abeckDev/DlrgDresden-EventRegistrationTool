@@ -27,7 +27,7 @@
             </BarStart>
             <BarEnd>
                 <BarItem>
-                    <BarLink  style="color:white" To="/registration">Anmeldung</BarLink>
+                    <BarLink  style="color:white" Clicked="@ShowModal"><Icon Name="IconName.User" /> Meine Anmeldung aufrufen</BarLink>
                 </BarItem>
             </BarEnd>
         </BarMenu>
@@ -78,7 +78,7 @@
         </ModalBody>
         <ModalFooter>
             <Button Color="Color.Secondary" Clicked="@HideModal">Schließen</Button>
-            <Button Color="Color.Primary" @bind-Loading="isButtonLoading" Clicked="@GetMyRegistration">Weisheit einreichen</Button>
+            <Button Color="Color.Primary" @bind-Loading="isButtonLoading" Clicked="@GetMyRegistration">Anmeldung aufrufen</Button>
         </ModalFooter>
     </ModalContent>
 </Modal>
