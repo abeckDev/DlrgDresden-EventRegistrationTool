@@ -1,0 +1,191 @@
+﻿@page "/myevent"
+@page "/myevent/{userId}/{eMail}"
+@using System.Net.Http
+@inject HttpClient Http
+@inject NavigationManager NavManager
+@using System.Net.Http.Json
+@using Newtonsoft.Json
+
+@functions{
+    [Parameter]
+    public string userId { get; set; } = "";
+    [Parameter]
+    public string eMail { get; set; } = "";
+
+}
+
+<Breadcrumb>
+    <BreadcrumbItem>
+        <BreadcrumbLink To="">Startseite</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbItem>
+        <BreadcrumbLink To="/myevent">Meine Anmeldung</BreadcrumbLink>
+    </BreadcrumbItem>
+</Breadcrumb>
+
+<Row>
+    <Column Margin="Margin.Is2.FromTop">
+        <Text Class="text-center">
+            <h2>Jahreshauptversammlung DLRG Bezirk Dresden e. V. - Online Anmeldung</h2>
+        </Text>
+
+        <Card>
+            <CardBody>
+                <CardText>
+                    <Text>
+                        Aufgrund der Coronaviruspandemie, wir die diesjährige Jahreshauptversammlung der DLRG Dresden
+                        als Online Event stattfinden.
+                        Um einen korrekten Ablauf der Veranstaltung gewährleisten zu können müssen nun zusätzliche Tools
+                        für Abstimmung und Konferenz bereitgestellt werden.
+                        Daher wird die Anmeldung zur Jahreshauptversammlung auch erstmalig online und automatisiert
+                        stattfinden.
+                    </Text>
+                </CardText>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+
+
+    <Row>
+        <Column Margin="Margin.Is2.FromTop">
+            <Card Margin="Margin.Is4.OnY">
+                <CardHeader>
+                    <CardTitle>Jahreshauptversammlung - Meine Anmeldung</CardTitle>
+                </CardHeader>
+                <CardBody>
+
+                    <CardText>
+                        Auf dieser Seite werden alle von uns gespeicherten Informationen zu Ihrer Anmeldung angezeigt. Hier haben Sie auch die Möglichkeit Anpassungen durchzuführen.
+                        <br />
+                        @if (isAttendeeRegistrationValid)
+                        {
+                            <p>Die folgenden Informationen haben wir zur Ihrer anmeldung gefunden:</p>
+                        }
+
+                    </CardText>
+                </CardBody>
+
+                @if (attendeeInformationLoaded == false)
+                {
+                    <Loader />
+                }
+                else
+                {
+
+                    @if (!isAttendeeRegistrationValid)
+                    {
+                    <CardBody>
+                        <Alert Color="Color.Danger" Visible="true">
+                            <AlertDescription Class="text-center">
+                                Wir konnte unter den angegebenen Informationen keine Anmeldung finden!
+                                <br />
+                                <Button Color="Color.Primary" Type="ButtonType.Link" To="/">Zur Startseite</Button>
+                            </AlertDescription>
+                        </Alert>
+                    </CardBody>
+                    }
+                    else
+                    {
+
+                    <CardBody>
+                        <Container>
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Vorname</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <TextEdit @bind-Text="attendeeInformation.Name" Disabled="true" />
+                                </FieldBody>
+                            </Field>
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Nachname</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <TextEdit @bind-Text="attendeeInformation.Surname" Disabled="true" />
+                                </FieldBody>
+                            </Field>
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Geburtsdatum</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <DateEdit @bind-Date="@birthday" TValue="DateTime?" Disabled="true" />
+                                </FieldBody>
+                            </Field>
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">
+                                    Email Adresse
+                                </FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <TextEdit @bind-Text="attendeeInformation.Email" Disabled="true">
+                                    </TextEdit>
+                                </FieldBody>
+                            </Field>
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Stadt</FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <TextEdit @bind-Text="attendeeInformation.City" Disabled="true" />
+                                </FieldBody>
+                            </Field>
+
+                            <Field Horizontal="true">
+                                <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">
+                                    Postleitzahl
+                                </FieldLabel>
+                                <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                                    <TextEdit @bind-Text="attendeeInformation.ZipCode" Disabled="true">
+                                    </TextEdit>
+                                </FieldBody>
+                            </Field>
+                            <Check  Checked="true" Disabled="true">
+                                Mir ist bewusst, dass ich mich pro Mitgliedschaft und E-Mail Adresse nur einmal
+                                registrieren kann.
+                                Mein Stimmrecht darf nur durch mich ausgeübt werden und eine Weitergabe der Zugangsdaten
+                                ist nicht erlaubt.
+                            </Check>
+                            
+                        </Container>
+                    </CardBody>
+                    }
+                }
+            </Card>
+        </Column>
+    </Row>
+
+@code {
+
+    bool attendeeInformationLoaded = false;
+    bool isAttendeeRegistrationValid = false;
+    MyEventInformation attendeeInformation = new MyEventInformation();
+    DateTime? birthday;
+
+    //Read Backend call and display informations
+    protected override async Task OnInitializedAsync()
+    {
+        //Handle empty input
+        if (userId == "" || eMail == "")
+        {
+            attendeeInformationLoaded = true;
+            isAttendeeRegistrationValid = false;
+            StateHasChanged();
+        }
+
+        var response = await Http.GetAsync("GetMyEventInformationFunction?userId=" + userId + "&eMail=" + eMail);
+
+
+        //Handle Get Error
+        if (!response.IsSuccessStatusCode)
+        {
+            attendeeInformationLoaded = true;
+            isAttendeeRegistrationValid = false;
+            StateHasChanged();
+        }
+
+
+        //Bind response to Model
+        attendeeInformation = await response.Content.ReadFromJsonAsync<MyEventInformation>();
+        birthday = DateTime.Parse(attendeeInformation.Birthday);
+        attendeeInformationLoaded = true;
+        isAttendeeRegistrationValid = true;
+        StateHasChanged();
+
+    }
+
+}

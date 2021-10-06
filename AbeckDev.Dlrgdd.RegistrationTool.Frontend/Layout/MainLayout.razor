@@ -53,7 +53,7 @@
             <CloseButton Clicked="@HideModal" />
         </ModalHeader>
         <ModalBody>
-            <Paragraph>Hier können Sie ihre bestehende Registrierung zur Veranstaltung aufrufen und bearbeiten.</Paragraph>
+            <Paragraph>Hier können Sie ihre bestehende Anmeldung zur Veranstaltung aufrufen und bearbeiten.</Paragraph>
             <Paragraph>
                 Bitte geben sie die unten stehenden Informationen zu Ihrer Anmeldung an.
             </Paragraph>
@@ -89,20 +89,22 @@
 
 <Snackbar @ref="snackbarSuccess" Color="SnackbarColor.Success">
     <SnackbarBody>
-        Deine Registrierung wurde gefunden, wir werden Sie nun weiterleiten!
+        Ihre Anmeldung wurde gefunden!
     </SnackbarBody>
 </Snackbar>
 <Snackbar @ref="snackbarError" Color="SnackbarColor.Danger">
     <SnackbarBody>
-        <strong>Fehler</strong> Ihre Reservierung konnte nicht gefunden werden. Bitte überprüfen Sie die angegebenen Daten auf Fehler.
+        <strong>Fehler</strong> Ihre Anmeldung konnte nicht gefunden werden. Bitte überprüfen Sie die angegebenen Daten auf Fehler.
     </SnackbarBody>
 </Snackbar>
 
 @code {
 
+    //Initialize form values so they are not null
     string userId = "";
     string eMail = "";
 
+    //Main Function if button in modal is clicked
     private async Task GetMyRegistration()
     {
         //Loading Button
@@ -131,6 +133,8 @@
                 isButtonLoading = false;
                 StateHasChanged();
                 snackbarSuccess.Show();
+                NavManager.NavigateTo("/myevent/"+userId+"/"+eMail);
+
 
             }
             else
@@ -142,7 +146,7 @@
                 snackbarError.Show();
             }
         }
-        catch (Exception ex)
+        catch
         {
             //Error
             HideModal();

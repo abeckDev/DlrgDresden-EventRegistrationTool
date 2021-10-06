@@ -17,6 +17,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Models
             Birthday = attendeeRecord.Birthday;
             City = attendeeRecord.City;
             ZipCode = attendeeRecord.ZipCode;
+            RegistrationDate = attendeeRecord.RegistrationDate;
         }
         public string UserId { get; set; }
         public string Name { get; set; }
@@ -26,5 +27,6 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Models
         public string Birthday { get; set; }
         public string City { get; set; }
         public string ZipCode { get; set; }
+        public DateTime RegistrationDate { get; set; }
     }
 }
