@@ -163,7 +163,7 @@
                     </CardText>
                 </CardBody>
                 <CardBody TextAlignment="TextAlignment.Center">
-                    <Button Margin="Margin.Is2.FromTop" Color="Color.Secondary">
+                    <Button Margin="Margin.Is2.FromTop" Color="Color.Secondary" Clicked="@PasswordReset" disabled="@isPasswortResetButtonDisabled" Loading="@isPasswortResetButtonLoading">
                         Zugangsdaten erneut versenden
                     </Button>
                     <Button Margin="Margin.Is2.FromTop.Is2.FromLeft" Color="Color.Primary">
@@ -175,12 +175,27 @@
     </Row>
 }
 
+<Snackbar @ref="snackbarSuccess" Color="SnackbarColor.Success">
+    <SnackbarBody>
+        Die gewünschte Aktion wurde ausgeführt!
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarError" Color="SnackbarColor.Danger">
+    <SnackbarBody>
+        <strong>Fehler</strong> Beim ausführen der gewünschten Aktion ist ein Fehler aufgetreten!.
+    </SnackbarBody>
+</Snackbar>
+
+
 @code {
 
     bool attendeeInformationLoaded = false;
     bool isAttendeeRegistrationValid = false;
     MyEventInformation attendeeInformation = new MyEventInformation();
     DateTime? birthday;
+
+    Snackbar snackbarSuccess;
+    Snackbar snackbarError;
 
     //Read Backend call and display informations
     protected override async Task OnInitializedAsync()
@@ -212,6 +227,35 @@
         isAttendeeRegistrationValid = true;
         StateHasChanged();
 
+    }
+
+    //Handle SelfService Buttons
+
+    //Password Reset
+    bool isPasswortResetButtonLoading;
+    bool isPasswortResetButtonDisabled;
+    async void PasswordReset()
+    {
+        //Disable the Button
+        isPasswortResetButtonLoading = true;
+        isPasswortResetButtonDisabled = true;
+
+        //Call the backend Function
+
+        var response = await Http.GetAsync("ResetUserCredentialsFunctions?userId=" + userId + "&eMail=" + eMail);
+
+        isPasswortResetButtonDisabled = false;
+        isPasswortResetButtonLoading = false;
+
+        if (response.IsSuccessStatusCode)
+        {
+            snackbarSuccess.Show();
+        }
+        else
+        {
+            snackbarError.Show();
+        }
+        StateHasChanged();
     }
 
 }
