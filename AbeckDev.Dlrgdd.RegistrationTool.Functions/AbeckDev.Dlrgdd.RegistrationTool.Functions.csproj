@@ -24,6 +24,7 @@
     <PackageReference Include="Microsoft.Graph.Auth" Version="1.0.0-preview.7" />
     <PackageReference Include="Azure.Identity" Version="1.5.0-beta.4" />
     <PackageReference Include="CsvHelper" Version="27.1.1" />
+    <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="3.0.10" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Microsoft.Graph" />
@@ -31,6 +32,7 @@
     <None Remove="Microsoft.Graph.Auth" />
     <None Remove="Azure.Identity" />
     <None Remove="CsvHelper" />
+    <None Remove="Microsoft.Azure.WebJobs.Extensions.Storage" />
   </ItemGroup>
   <ItemGroup>
     <None Update="host.json">

@@ -160,13 +160,18 @@
                     <CardText>
                         Hier haben Sie die Möglichkeit Ihre Anmeldung zu bearbeiten und zu stornieren.
                         <br />
+                        Bitte beachten Sie, dass eine Stornierung nur bis zum @metadataInformation.RegistrationDeadline.ToString("dd.MM.yyy") möglich ist.
+                        @if (metadataInformation.IsRegistrationDeadlineReached)
+                        {
+                            <Strong>Eine Stornierung ist somit nicht mehr möglich!</Strong>
+                        }
                     </CardText>
                 </CardBody>
                 <CardBody TextAlignment="TextAlignment.Center">
                     <Button Margin="Margin.Is2.FromTop" Color="Color.Secondary" Clicked="@PasswordReset" disabled="@isPasswortResetButtonDisabled" Loading="@isPasswortResetButtonLoading">
                         Zugangsdaten erneut versenden
                     </Button>
-                    <Button Margin="Margin.Is2.FromTop.Is2.FromLeft" Color="Color.Primary">
+                    <Button Margin="Margin.Is2.FromTop.Is2.FromLeft" Color="Color.Primary" Clicked="@ShowModal" Disabled="@metadataInformation.IsRegistrationDeadlineReached">
                         Anmeldung stonieren
                     </Button>
                 </CardBody>
@@ -174,6 +179,26 @@
         </Column>
     </Row>
 }
+
+<Modal @ref="deleteRegistrationRef">
+    <ModalContent IsCentered="true">
+        <ModalHeader>
+            <ModalTitle>Meine Registrierung stonieren</ModalTitle>
+            <CloseButton Clicked="@HideModal" />
+        </ModalHeader>
+        <ModalBody>
+            <Paragraph>Möchten Sie Ihre Anmeldung wirklich stornieren?</Paragraph>
+            <Paragraph>
+                Sie werden danach keinen Zugriff mehr auf die Evenseite und die damit verbundenen Zugänge haben. Eine Stornierung ist nur bis zum Anmeldeschluss möglich. 
+            </Paragraph>
+            <Divider />
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Light" Clicked="@HideModal">Abbruch</Button>
+            <Button Color="Color.Primary" @bind-Loading="@isCancelButtonLoading" Disabled="@isPasswortResetButtonDisabled" Clicked="@CancelRegistration"> Anmeldung stornieren!</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
 
 <Snackbar @ref="snackbarSuccess" Color="SnackbarColor.Success">
     <SnackbarBody>
@@ -193,9 +218,15 @@
     bool isAttendeeRegistrationValid = false;
     MyEventInformation attendeeInformation = new MyEventInformation();
     DateTime? birthday;
+    MetadataInformation metadataInformation;
 
     Snackbar snackbarSuccess;
     Snackbar snackbarError;
+
+
+
+
+
 
     //Read Backend call and display informations
     protected override async Task OnInitializedAsync()
@@ -207,6 +238,8 @@
             isAttendeeRegistrationValid = false;
             StateHasChanged();
         }
+
+        metadataInformation = await GetMetaInformation();
 
         var response = await Http.GetAsync("GetMyEventInformationFunction?userId=" + userId + "&eMail=" + eMail);
 
@@ -228,6 +261,38 @@
         StateHasChanged();
 
     }
+
+
+    private async Task<MetadataInformation> GetMetaInformation()
+    {
+        var response = await Http.GetFromJsonAsync<MetadataInformation>("EventMetadataFunction");
+        response.IsLoaded = true;
+        response.IsRegistrationDeadlineReached = GetIsDeadlineReached(response.RegistrationDeadline);
+        response.IsRegistrationStartReached = IsRegistrationStartReached(response.RegistrationStart);
+        return response;
+    }
+
+    private bool IsRegistrationStartReached(DateTime firstDate)
+    {
+        if (DateTime.Compare(firstDate, DateTime.Now) <= 0)
+        {
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private bool GetIsDeadlineReached(DateTime firstDate)
+    {
+        if (DateTime.Compare(firstDate, DateTime.Now) < 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
+
 
     //Handle SelfService Buttons
 
@@ -258,4 +323,40 @@
         StateHasChanged();
     }
 
+    //Delete stuff -> 
+    Modal deleteRegistrationRef;
+    bool isCancelButtonDisable = false;
+    bool isCancelButtonLoading = false;
+
+
+    async void CancelRegistration()
+    {
+        isCancelButtonDisable = true;
+        isCancelButtonLoading = true;
+
+        var response = await Http.GetAsync("UserCancelRegistrationFunction?userId="+userId+"&eMail="+eMail);
+        isCancelButtonDisable = false;
+        isCancelButtonLoading = false;
+        if (response.IsSuccessStatusCode)
+        {
+            snackbarSuccess.Show();
+            NavManager.NavigateTo("/");
+        }
+        else
+        {
+            snackbarError.Show();
+        }
+        StateHasChanged();
+
+    }
+
+    public void ShowModal()
+    {
+        deleteRegistrationRef.Show();
+    }
+
+    private void HideModal()
+    {
+        deleteRegistrationRef.Hide();
+    }
 }
