@@ -31,7 +31,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             var graphApiService = new GraphApiService();
 
             //Save Attendee information to the table storage --> may be crypted
-            var attendee = encryptionService.DecryptÁttendeeRecord(attendeeService.CreateAttendeeRecord(registrationRequest));
+            var attendee = encryptionService.DecryptAttendeeRecord(attendeeService.CreateAttendeeRecord(registrationRequest));
 
             //Register Attendee in AzureAD
 

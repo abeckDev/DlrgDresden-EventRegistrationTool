@@ -4,45 +4,49 @@
 @using Blazorise.Localization
 @using Microsoft.Extensions.Configuration
 @inject IConfiguration Configuration
+@using System.Net.Http
+@inject HttpClient Http
+@inject NavigationManager NavManager
+@using System.Net.Http.Json
+@using Newtonsoft.Json
 
 <Layout>
-  <LayoutHeader>
-      <Bar Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light" >
-        <BarBrand>
-            <BarItem>
-                <BarLink To="">
-                    <Text Color="TextColor.Secondary" style="font-weight:bold">JHV  DLRG Dresden - Anmeldungsportal</Text>
-                </BarLink>
-            </BarItem>
-        </BarBrand>
-        <BarToggler />
-        <BarMenu>
-            <BarStart>
+    <LayoutHeader>
+        <Bar Breakpoint="Breakpoint.Desktop" Background="Background.Primary" ThemeContrast="ThemeContrast.Light">
+            <BarBrand>
                 <BarItem>
-                    <BarLink  style="color:white" To="">Startseite</BarLink>
+                    <BarLink To="">
+                        <Text Color="TextColor.Secondary" style="font-weight:bold">JHV  DLRG Dresden - Anmeldungsportal</Text>
+                    </BarLink>
                 </BarItem>
-                <BarItem>
-                    <BarLink  style="color:white" To="/registration">Anmeldung</BarLink>
-                </BarItem>
-            </BarStart>
-            <BarEnd>
-                <BarItem>
-                    <BarLink  style="color:white" Clicked="@ShowModal"><Icon Name="IconName.User" /> Meine Anmeldung aufrufen</BarLink>
-                </BarItem>
-            </BarEnd>
-        </BarMenu>
-      </Bar>
-  </LayoutHeader>
-  <LayoutContent>
-      @Body
-  </LayoutContent>
-  <LayoutFooter>
-    DLRG Bezirk Dresden e. V. - 2021  - <a href="mailto:online-dienste@dresden.dlrg.de">Support kontaktieren</a>
-  </LayoutFooter>
+            </BarBrand>
+            <BarToggler />
+            <BarMenu>
+                <BarStart>
+                    <BarItem>
+                        <BarLink style="color:white" To="">Startseite</BarLink>
+                    </BarItem>
+                    <BarItem>
+                        <BarLink style="color:white" To="/registration">Anmeldung</BarLink>
+                    </BarItem>
+                </BarStart>
+                <BarEnd>
+                    <BarItem>
+                        <BarLink style="color:white" Clicked="@ShowModal"><Icon Name="IconName.User" /> Meine Anmeldung aufrufen</BarLink>
+                    </BarItem>
+                </BarEnd>
+            </BarMenu>
+        </Bar>
+    </LayoutHeader>
+    <LayoutContent>
+        @Body
+    </LayoutContent>
+    <LayoutFooter>
+        DLRG Bezirk Dresden e. V. - 2021  - <a href="mailto:online-dienste@dresden.dlrg.de">Support kontaktieren</a>
+    </LayoutFooter>
 </Layout>
 
 <Modal @ref="accountLookupRef">
-    <ModalBackdrop />
     <ModalContent IsCentered="true">
         <ModalHeader>
             <ModalTitle>Meine Registrierung aufrufen</ModalTitle>
@@ -51,7 +55,7 @@
         <ModalBody>
             <Paragraph>Hier können Sie ihre bestehende Registrierung zur Veranstaltung aufrufen und bearbeiten.</Paragraph>
             <Paragraph>
-               Bitte geben sie die unten stehenden Informationen zu Ihrer Anmeldung an.
+                Bitte geben sie die unten stehenden Informationen zu Ihrer Anmeldung an.
             </Paragraph>
             <Divider />
             <Validation Validator="@ValidateNotEmpty">
@@ -78,23 +82,82 @@
         </ModalBody>
         <ModalFooter>
             <Button Color="Color.Secondary" Clicked="@HideModal">Schließen</Button>
-            <Button Color="Color.Primary" @bind-Loading="isButtonLoading" Clicked="@GetMyRegistration">Anmeldung aufrufen</Button>
+            <Button Color="Color.Primary" @bind-Loading="isButtonLoading" Clicked="@GetMyRegistration"> Anmeldung aufrufen</Button>
         </ModalFooter>
     </ModalContent>
 </Modal>
 
+<Snackbar @ref="snackbarSuccess" Color="SnackbarColor.Success">
+    <SnackbarBody>
+        Deine Registrierung wurde gefunden, wir werden Sie nun weiterleiten!
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarError" Color="SnackbarColor.Danger">
+    <SnackbarBody>
+        <strong>Fehler</strong> Ihre Reservierung konnte nicht gefunden werden. Bitte überprüfen Sie die angegebenen Daten auf Fehler.
+    </SnackbarBody>
+</Snackbar>
+
 @code {
 
-    string userId;
-    string eMail;
+    string userId = "";
+    string eMail = "";
 
     private async Task GetMyRegistration()
     {
         //Loading Button
         isButtonLoading = true;
 
-        
-    } 
+        //Check for short input
+        if (userId.Length <= 0 || eMail.Length <= 0)
+        {
+            //Invalid Input
+            isButtonLoading = false;
+            StateHasChanged();
+            return;
+        }
+
+
+        try
+        {
+            //Check Backend for users credentials
+            var response = await Http.GetAsync("GetMyEventInformationFunction?userId=" + userId + "&eMail=" + eMail);
+            var responseMessage = await response.Content.ReadAsStringAsync();
+
+            if (response.IsSuccessStatusCode)
+            {
+                //Sucess
+                HideModal();
+                isButtonLoading = false;
+                StateHasChanged();
+                snackbarSuccess.Show();
+
+            }
+            else
+            {
+                //Error
+                HideModal();
+                isButtonLoading = false;
+                StateHasChanged();
+                snackbarError.Show();
+            }
+        }
+        catch (Exception ex)
+        {
+            //Error
+            HideModal();
+            isButtonLoading = false;
+            StateHasChanged();
+            snackbarError.Show();
+        }
+
+
+
+    }
+
+    //Snackbar Reference
+    private Snackbar snackbarSuccess;
+    private Snackbar snackbarError;
 
     //Model References
     private Modal accountLookupRef;

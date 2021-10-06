@@ -153,7 +153,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
             };
 
             //Encrypt Settings
-            attendee = encryptionService.EncryptÁttendeeRecord(attendee);
+            attendee = encryptionService.EncryptAttendeeRecord(attendee);
 
             //Write to Table Storage
             TableResult result = attendeeTable.Execute(TableOperation.InsertOrReplace(attendee));
@@ -324,7 +324,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
             var userNames = new List<string>();
             foreach (var attendee in attendeeTable.ExecuteQuery(new TableQuery<AttendeeRecord>()))
             {
-                userNames.Add(encryptionService.DecryptÁttendeeRecord(attendee).Username);
+                userNames.Add(encryptionService.DecryptAttendeeRecord(attendee).Username);
             }
             return userNames;
         }

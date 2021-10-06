@@ -20,7 +20,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
 
 
 
-        public AttendeeRecord EncryptÁttendeeRecord(AttendeeRecord attendeeRecord)
+        public AttendeeRecord EncryptAttendeeRecord(AttendeeRecord attendeeRecord)
         {
             if (!attendeeRecord.IsEncrypted)
             {
@@ -38,7 +38,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions.Services
             return attendeeRecord;
         }
 
-        public AttendeeRecord DecryptÁttendeeRecord(AttendeeRecord attendeeRecord)
+        public AttendeeRecord DecryptAttendeeRecord(AttendeeRecord attendeeRecord)
         {
             if (attendeeRecord.IsEncrypted)
             {

@@ -67,7 +67,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
                 var encryptedattendees = attendeeService.GetAllAttendeeRecords();
                 foreach (var attendee in encryptedattendees)
                 {
-                    attendeeList.Add(encryptionService.DecryptÁttendeeRecord(attendee));
+                    attendeeList.Add(encryptionService.DecryptAttendeeRecord(attendee));
                 }
             }
             else
@@ -79,7 +79,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
                     return new NotFoundObjectResult("That user could not be found!");
                 }
 
-                attendeeList.Add(encryptionService.DecryptÁttendeeRecord(attendeeService.GetAttendeeRecord(userId)));
+                attendeeList.Add(encryptionService.DecryptAttendeeRecord(attendeeService.GetAttendeeRecord(userId)));
             }
 
             //Format list based on export format and return

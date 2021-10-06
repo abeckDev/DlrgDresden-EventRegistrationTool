@@ -59,8 +59,7 @@ namespace AbeckDev.Dlrgdd.RegistrationTool.Functions
             {
                 return new NotFoundObjectResult("We could not find a registration based on the userId and eMail combination");
             }
-            attendeeRecord = encryptionService.Decrypt¡ttendeeRecord(attendeeRecord);
-
+            attendeeRecord = encryptionService.DecryptAttendeeRecord(attendeeRecord);
 
             //Check if eMail adress is a match with record 
             if (attendeeRecord.Email != eMail)
