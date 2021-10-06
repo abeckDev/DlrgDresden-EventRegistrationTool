@@ -46,36 +46,34 @@
     </Column>
 </Row>
 
+<Row>
+    <Column Margin="Margin.Is2.FromTop">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Jahreshauptversammlung - Meine Anmeldung</CardTitle>
+            </CardHeader>
+            <CardBody>
 
-
-    <Row>
-        <Column Margin="Margin.Is2.FromTop">
-            <Card Margin="Margin.Is4.OnY">
-                <CardHeader>
-                    <CardTitle>Jahreshauptversammlung - Meine Anmeldung</CardTitle>
-                </CardHeader>
-                <CardBody>
-
-                    <CardText>
-                        Auf dieser Seite werden alle von uns gespeicherten Informationen zu Ihrer Anmeldung angezeigt. Hier haben Sie auch die Möglichkeit Anpassungen durchzuführen.
-                        <br />
-                        @if (isAttendeeRegistrationValid)
-                        {
-                            <p>Die folgenden Informationen haben wir zur Ihrer anmeldung gefunden:</p>
-                        }
-
-                    </CardText>
-                </CardBody>
-
-                @if (attendeeInformationLoaded == false)
-                {
-                    <Loader />
-                }
-                else
-                {
-
-                    @if (!isAttendeeRegistrationValid)
+                <CardText>
+                    Auf dieser Seite werden alle von uns gespeicherten Informationen zu Ihrer Anmeldung angezeigt. Hier haben Sie auch die Möglichkeit Anpassungen durchzuführen.
+                    <br />
+                    @if (isAttendeeRegistrationValid)
                     {
+                        <p>Die folgenden Informationen haben wir zur Ihrer anmeldung gefunden:</p>
+                    }
+
+                </CardText>
+            </CardBody>
+
+            @if (attendeeInformationLoaded == false)
+            {
+                <Loader />
+            }
+            else
+            {
+
+                @if (!isAttendeeRegistrationValid)
+                {
                     <CardBody>
                         <Alert Color="Color.Danger" Visible="true">
                             <AlertDescription Class="text-center">
@@ -85,9 +83,9 @@
                             </AlertDescription>
                         </Alert>
                     </CardBody>
-                    }
-                    else
-                    {
+                }
+                else
+                {
 
                     <CardBody>
                         <Container>
@@ -134,20 +132,48 @@
                                     </TextEdit>
                                 </FieldBody>
                             </Field>
-                            <Check  Checked="true" Disabled="true">
+                            <Check Checked="true" Disabled="true">
                                 Mir ist bewusst, dass ich mich pro Mitgliedschaft und E-Mail Adresse nur einmal
                                 registrieren kann.
                                 Mein Stimmrecht darf nur durch mich ausgeübt werden und eine Weitergabe der Zugangsdaten
                                 ist nicht erlaubt.
                             </Check>
-                            
+
                         </Container>
                     </CardBody>
-                    }
                 }
+            }
+        </Card>
+    </Column>
+</Row>
+
+
+@if (isAttendeeRegistrationValid)
+{
+    <Row>
+        <Column Margin="Margin.Is2.FromTop">
+            <Card Margin="Margin.Is4.OnY">
+                <CardHeader>
+                    <CardTitle>Jahreshauptversammlung - Anmeldung bearbeiten</CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <CardText>
+                        Hier haben Sie die Möglichkeit Ihre Anmeldung zu bearbeiten und zu stornieren.
+                        <br />
+                    </CardText>
+                </CardBody>
+                <CardBody TextAlignment="TextAlignment.Center">
+                    <Button Margin="Margin.Is2.FromTop" Color="Color.Secondary">
+                        Zugangsdaten erneut versenden
+                    </Button>
+                    <Button Margin="Margin.Is2.FromTop.Is2.FromLeft" Color="Color.Primary">
+                        Anmeldung stonieren
+                    </Button>
+                </CardBody>
             </Card>
         </Column>
     </Row>
+}
 
 @code {
 
