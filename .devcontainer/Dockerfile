@@ -1,7 +1,7 @@
 # See here for image contents: https://github.com/microsoft/vscode-dev-containers/tree/v0.191.1/containers/dotnet/.devcontainer/base.Dockerfile
 
-# [Choice] .NET version: 5.0, 3.1, 2.1
-ARG VARIANT="5.0"
+# [Choice] .NET version: 6.0, 5.0, 3.1, 6.0-bullseye, 5.0-bullseye, 3.1-bullseye, 6.0-focal, 5.0-focal, 3.1-focal
+ARG VARIANT="6.0-focal"
 FROM mcr.microsoft.com/vscode/devcontainers/dotnet:0-${VARIANT}
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
@@ -20,7 +20,7 @@ RUN sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
 RUN echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-    && apt-get -y install --no-install-recommends azure-functions-core-tools-3
+    && apt-get -y install --no-install-recommends azure-functions-core-tools-4
 
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
