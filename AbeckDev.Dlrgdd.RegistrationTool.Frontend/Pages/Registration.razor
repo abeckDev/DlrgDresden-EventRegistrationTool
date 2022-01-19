@@ -177,7 +177,7 @@
     async void Submit()
     {
         //Validate if all Form Input is Valid
-        if (FormValidation.ValidateAll())
+        if (FormValidation.ValidateAll().GetAwaiter().GetResult())
         {
             //Deactivate Button and Indicate progress
             IsButtonDisabled = true;
